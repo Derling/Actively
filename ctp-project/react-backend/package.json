@@ -1,0 +1,26 @@
+{
+  "name": "ctp_project",
+  "version": "1.0.0",
+  "description": "Actively web app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Derling/ctp-project.git"
+  },
+  "author": "Derling Batista Diaz, Samuel Witke, Randy Cisneros, Seng Mun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Derling/ctp-project/issues"
+  },
+  "homepage": "https://github.com/Derling/ctp-project",
+  "dependencies":{
+    "body-parser": "^1.18.2",
+    "express": "^4.15.5",
+    "express-handlebars": "^3.0.0",
+    "nodemon": "^1.12.1", 
+    "sequelize": "^4.11.0"
+  }  
+}
