@@ -3,15 +3,17 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+	// Comment out this line:
   //res.send('respond with a resource');
 
-res.json([{
-	id: 1,
-	username: "Hello"
-}, {
-	id:2,
-	username: "World"
-}]);
+  // And insert something like this instead:
+  res.json([{
+  	id: 1,
+  	username: "Hello"
+  }, {
+  	id: 2,
+  	username: "World"
+  }]);
 });
 
 module.exports = router;
