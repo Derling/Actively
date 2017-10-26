@@ -19,18 +19,19 @@ npm install
 cd views
 npm install
 ```
-# Running Application
-##  Leave Running
+### Running Application
+####  Leave Running
 ```
 PORT=3001 node bin/www
 ```
-### New terminal
+#### New terminal
 Now you can either 
 ```
+cd Actively/ctp-project/
 npm start
 ```
 or
 ```
-cd ..
+cd Actively/ctp-project/views/
 npm start
 ```
