@@ -19,6 +19,12 @@ npm install
 cd views
 npm install
 ```
+# Running Application
+##  Leave Running
+```
+PORT=3001 node bin/www
+```
+### New terminal
 Now you can either 
 ```
 npm start
