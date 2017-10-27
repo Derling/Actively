@@ -1,15 +1,13 @@
 {
-  "name": "react-backend",
+  "name": "ctp-project",
   "version": "0.0.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": " cd views && npm start",
+    "build": "cd views && npm run build",
+    "test": "cd views && npm run test "
   },
-  "proxy": "http://localhost:3001"
-  
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",

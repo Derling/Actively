@@ -1,3 +1,9 @@
+/*
+ * Sample Code Taken From
+ * https://daveceddia.com/create-react-app-express-backend/
+ * 
+ *
+*/
 import React, { Component } from 'react';
 import './App.css';
 
