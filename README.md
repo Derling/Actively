@@ -14,7 +14,6 @@ For the react part I set the proxy under package.json and ran it. On the react s
 # Installation
 
 ```
-cd ctp-project
 npm install
 cd views
 npm install
@@ -27,11 +26,11 @@ PORT=3001 node bin/www
 #### New terminal
 Now you can either 
 ```
-cd Actively/ctp-project/
+cd Actively
 npm start
 ```
 or
 ```
-cd Actively/ctp-project/views/
+cd Actively/views/
 npm start
 ```
