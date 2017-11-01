@@ -34,3 +34,21 @@ or
 cd Actively/views/
 npm start
 ```
+
+### Setup the Linter
+```
+./node_modules/.bin/eslint --init
+(Select Popular Style -> AirBnB -> JSON)
+```
+Running Linter
+```
+npm run lint
+```
+To run on all files, go to package.json and change it to:
+```
+"lint": "./node_modules/.bin/eslint ."
+```
+To run on specify file, go to package.json and change it to:
+```
+"lint": "./node_modules/.bin/eslint name_of_the_file.js"
+```
