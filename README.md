@@ -35,6 +35,7 @@ cd Actively/views/
 npm start
 ```
 
+
 ### Setup the Linter
 ```
 npm install eslint --save-dev
@@ -49,3 +50,4 @@ To run on specify file, go to package.json and change it to:
 ```
 "lint": "./node_modules/.bin/eslint name_of_the_file.js; exit 0"
 ```
+
