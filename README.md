@@ -35,7 +35,7 @@ cd Actively/views/
 npm start
 ```
 
-###Running Linter
+### Running Linter
 ```
 npm run lint
 ```
