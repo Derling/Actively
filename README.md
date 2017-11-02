@@ -1,4 +1,4 @@
-# Actively
+#Actively
 Actively Travel App
 
 
@@ -36,13 +36,8 @@ npm start
 ```
 
 ### Running Linter
-From root folder
-...
-To run on all files
-...
-./node_modules/.bin/eslint .
-...
-To run on specific file
-...
-./node_modules/.bin/eslint File.js
-...
+```
+npm run lint
+```
+
+
