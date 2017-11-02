@@ -7,7 +7,7 @@
     "start": " cd views && npm start",
     "build": "cd views && npm run build",
     "test": "cd views && npm run test ",
-    "lint": "./node_modules/.bin/eslint app.js; exit 0"
+    "lint": "eslint *; exit 0"
   },
   "dependencies": {
     "babel-eslint": "^8.0.1",
