@@ -3,20 +3,19 @@
 import React, {Component} from 'react';
 import MapGL from 'react-map-gl';
 import DeckGLOverlay from './deckgl-overlay.js';
-import {csv as requestCsv} from 'd3-request';
+const request = require('d3-request');
 
 
 // Set your mapbox token here
 const MAPBOX_TOKEN = process.env.REACT_APP_MapboxAccessToken; // eslint-disable-line
 
-// Source data CSV
-const DATA_URL = '';  // eslint-disable-line
+// Source data 
+const DATA_URL = 'https://data.cityofnewyork.us/api/geospatial/thbt-gfu9?method=export&format=GeoJSON';  // eslint-disable-line
 
 class Home extends Component {
 
   constructor(props) {
     super(props);
-    console.log(process.env.MapboxAccessToken);
     this.state = {
       viewport: {
         ...DeckGLOverlay.defaultViewport,
@@ -26,12 +25,11 @@ class Home extends Component {
       data: null
     };
 
-    requestCsv(DATA_URL, (error, response) => {
-      if (!error) {
-        const data = response.map(d => ([Number(d.lng), Number(d.lat)]));
-        this.setState({data});
-      }
-    });
+   request.json(DATA_URL, (err, json) => {
+		if(!err){
+			this.setState({data: json});
+		}
+	});
   }
 
   componentDidMount() {

@@ -7,8 +7,5 @@ import App from "./router.js";
 global.jQuery = require('jquery');
 require('bootstrap');
 
-ReactDOM.render(
-    <App />
-, document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 registerServiceWorker();
