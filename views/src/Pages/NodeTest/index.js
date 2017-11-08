@@ -1,31 +1,27 @@
-/*
- * Sample Code Taken From
- * https://daveceddia.com/create-react-app-express-backend/
- * 
- *
-*/
 import React, { Component } from 'react';
-import './App.css';
 
-class App extends Component {
-  state = {users: []}
+class NodeTest extends Component {
 
   componentDidMount() {
     fetch('/users')
       .then(res => res.json())
       .then(users => this.setState({ users }));
   }
+  constructor() {
+      super();
+      this.state = { users : ["Sam"] };
+  }
 
   render() {
     return (
-      <div className="App">
+		<div className="container">
         <h1>Users</h1>
         {this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
+          <div className="label label-default"key={user.id}> {user.username}</div>
         )}
-      </div>
+		</div>
     );
   }
 }
 
-export default App;
+export default NodeTest;
