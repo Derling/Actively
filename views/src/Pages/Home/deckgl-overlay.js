@@ -56,7 +56,7 @@ export default class DeckGLOverlay extends Component {
 
     });
 
-	console.log(data);
+	//console.log(data);
     return (
       <DeckGL {...viewport} layers={ [layer] } onWebGLInitialized={this._initialize} />
     );

@@ -48,6 +48,7 @@ class Home extends Component {
     this.setState({
       viewport: {...this.state.viewport, ...viewport}
     });
+   console.log(viewport);
   }
 
 
