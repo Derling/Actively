@@ -49,7 +49,6 @@ export default class DeckGLOverlay extends Component {
       stroked: true,
       filled: true,
       extruded: true,
-	  getFillColor: f => f.properties.fillColor || [25, 25, 25, 25],
 	  getRadius: f => f.properties.radius ||  50, 
 	  elevationScale: 30,
       lightSettings: LIGHT_SETTINGS,

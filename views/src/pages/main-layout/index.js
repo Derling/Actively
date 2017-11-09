@@ -1,8 +1,8 @@
 import React from 'react';
 import {Route, Switch ,Redirect} from 'react-router';
-import Home from '../Home/index.js'
+import Home from '../home-map/index.js'
 import 'bootstrap/dist/css/bootstrap.css';
-import NodeTest from '../NodeTest/index.js'
+import NodeTest from '../node-test/index.js'
 import Sidebar from 'react-sidebar';
 import MaterialTitlePanel from './material_title_panel';
 import SidebarContent from './sidebar_content';

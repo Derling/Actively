@@ -1,5 +1,5 @@
 import React from 'react';
-import MainLayout from './Pages/Main-Layout/index.js';
+import MainLayout from './pages/main-layout/index.js';
 import {Switch ,Route} from 'react-router';
 import { BrowserRouter } from 'react-router-dom'
 
