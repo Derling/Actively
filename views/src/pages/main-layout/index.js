@@ -70,7 +70,6 @@ class MainLayout extends React.Component {
       transitions: this.state.transitions,
       onSetOpen: this.onSetOpen,
     };
-
     return (
       <Sidebar {...sidebarProps}>
         <MaterialTitlePanel title={contentHeader} login={contentLogin}>

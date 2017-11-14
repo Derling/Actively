@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTitlePanel from './material_title_panel';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import './main.css'
 
 const styles = {	
@@ -35,6 +35,7 @@ const styles = {
 
 const SidebarContent = (props) => {
   const style = props.style ? {...styles.sidebar, ...props.style} : styles.sidebar;
+  
   return (
     <MaterialTitlePanel title="Menu" style={style}>
       <div style={styles.content}>
@@ -42,7 +43,10 @@ const SidebarContent = (props) => {
 		<br></br>
     	<NavLink to="/users" activeClassName="active" className="label lb-lg">NodeTest</NavLink>
         <div style={styles.divider} />
-      </div>
+			<div className="row">
+    			<NavLink to="/" activeClassName="active" params={{ testvalue: "hello" }} className="label lb-lg">DataTest</NavLink>
+			</div>
+		</div>
     </MaterialTitlePanel>
   );
 };
