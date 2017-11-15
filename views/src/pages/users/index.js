@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 class NodeTest extends Component {
 
   componentDidMount() {
+   /*
     fetch('/users')
       .then(res => res.json())
       .then(users => this.setState({ users }));
+     */
   }
   constructor() {
       super();

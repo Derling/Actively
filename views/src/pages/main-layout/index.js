@@ -1,12 +1,15 @@
+/* React Requirements */
 import React from 'react';
 import {Route, Switch ,Redirect} from 'react-router';
-import Home from '../home-map/index.js'
 import 'bootstrap/dist/css/bootstrap.css';
+/* Main Components */
+import Home from '../home-map/index.js';
 import NodeTest from '../users/index.js'
+import Login from '../users/login.js';
+/* Sidebar */
 import Sidebar from 'react-sidebar';
 import MaterialTitlePanel from './material_title_panel';
 import SidebarContent from './sidebar_content';
-import Login from '../users/login.js';
 import { NavLink} from 'react-router-dom'
 
 const styles = {
@@ -47,19 +50,20 @@ class MainLayout extends React.Component {
       
   render() {
     const sidebar = <SidebarContent />;
-
     const contentHeader = (
-      <span>
-        {!this.state.docked &&
-         <a onClick={this.menuButtonClick} style={styles.contentHeaderMenuLink}>
-			=
-		</a>}
-        <span> Actively</span>
-      </span>);
-	const contentLogin = (
-    	<NavLink to="/login" activeClassName="active" className="label lb-lg">Login/Logout</NavLink>
-      );
-	
+        <span>
+          {!this.state.docked &&
+          <a onClick={this.menuButtonClick} style={styles.contentHeaderMenuLink}>
+			    =
+		      </a>}
+          <span> Actively</span>
+        </span>
+    );
+	  const contentLogin = (
+        <NavLink to="/login" 
+          activeClassName="active" 
+          className="label lb-lg">Login/Logout
+        </NavLink>);
     const sidebarProps = {
       sidebar: sidebar,
       docked: this.state.docked,
@@ -78,10 +82,9 @@ class MainLayout extends React.Component {
           <div style={styles.content}>
 				<main>
        	 		<Switch>
-          			<Route path="/" exact component={Home} />
+          			<Route path="/layer" component={Home} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
-          			<Redirect to="/" />
         		</Switch>
       		</main>
           </div>

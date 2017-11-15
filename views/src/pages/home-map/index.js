@@ -1,19 +1,14 @@
 
-/* global window,document */
 import React, {Component} from 'react';
 import MapGL, {GL} from 'react-map-gl';
-import DeckGLOverlay from './deckgl-overlay.js';
-const request = require('d3-request');
+import SubwayDeckGLOverlay from '../layers/geo-json/subway-overlay.js';
+import DeckGLOverlay from '../layers/custom-trips-layer/trips-deckgl-overlay.js';
+import {Route} from 'react-router';
 
-
-// Set your mapbox token here
 const MAPBOX_TOKEN = process.env.REACT_APP_MapboxAccessToken; // eslint-disable-line
-
-// Source data 
-const DATA_URL = 'https://data.cityofnewyork.us/api/geospatial/thbt-gfu9?method=export&format=GeoJSON';  // eslint-disable-line
+//const DATA_URL = 'https://data.cityofnewyork.us/api/geospatial/thbt-gfu9?method=export&format=GeoJSON';  // eslint-disable-line
 //const DATA_URL = 'https://api.cityofnewyork.us/calendar/v1/search.htm?app_id=ae66790f&app_key=38c8fef46fa43f5400db31de8e1e95f0&startDate=01%2F01%2F2017+01%3A00+am&endDate=12%2F31%2F2017+12%3A0+am'
 
-//const DATA_URL="";
 
 const tooltipStyle = {
   position: 'absolute',
@@ -33,20 +28,18 @@ class Home extends Component {
     super(props);
     this.state = {
       viewport: {
-        ...DeckGLOverlay.defaultViewport,
+        longitude: -74.0060,
+        latitude: 40.7128,
+        zoom: 12.6,
+        minZoom: 5,
+        maxZoom: 15,
+        pitch: 50.5,
         width: 500,
-        height: 500
+        height: 500,
+        time: 0,
       },
-      data: null,
 	  hoveredObject: null
     };	
-   request.json(DATA_URL, (err, json) => {
-		if(!err){
-			this.setState({data: json});
-		}
-		else 
-			console.log(err);
-	});
 	/*
 	fetch('/test')
       .then(res => res.json())
@@ -54,10 +47,27 @@ class Home extends Component {
 
 	*/
   }
-
   componentDidMount() {
     window.addEventListener('resize', this._resize.bind(this));
     this._resize();
+    this._animate();
+  }
+
+  componentWillUnmount() {
+    if (this._animationFrame) {
+      window.cancelAnimationFrame(this._animationFrame);
+    }
+  }
+
+  _animate() {
+    const timestamp = Date.now();
+    const loopLength = 1800;
+    const loopTime = 60000;
+
+    this.setState({
+      time: ((timestamp % loopTime) / loopTime) * loopLength
+    });
+    this._animationFrame = window.requestAnimationFrame(this._animate.bind(this));
   }
 
   _resize() {
@@ -86,7 +96,6 @@ class Home extends Component {
     }
 
   _onClick(info) {
-    // Clicked a county
 	console.log("Good job kid you clicked");
     this.setState({selected: info.object});
   }
@@ -98,25 +107,32 @@ class Home extends Component {
   }
 
   render() {
-	const {viewport, data, selected} = this.state;
+    const {viewport, selected, time} = this.state;
     return (
-	<div>
-      <MapGL
-        {...viewport}
-        mapStyle="mapbox://styles/mapbox/dark-v9"
-        onViewportChange={this._onViewportChange.bind(this)}
-        mapboxApiAccessToken={MAPBOX_TOKEN}>
-		{this.renderHoveredItems()}
-        <DeckGLOverlay
-		  onHover={this._onHover.bind(this)}
-		  onClick={this._onClick.bind(this)}
-          viewport={viewport}
-          data={data || []}
-        />
-      </MapGL>
-	</div>
+	    <div>
+        <MapGL
+          {...viewport}
+          mapStyle="mapbox://styles/mapbox/dark-v9"
+          onViewportChange={this._onViewportChange.bind(this)}
+          mapboxApiAccessToken={MAPBOX_TOKEN}>
+		      {this.renderHoveredItems()}
+          <Route path={`${this.props.match.url}/subway`} render={ ()  => 
+            <SubwayDeckGLOverlay
+              onHover={this._onHover.bind(this)}
+		          onClick={this._onClick.bind(this)}
+              viewport={viewport}
+            /> 
+          }/>
+          <Route path={`${this.props.match.url}/taxi-trips-nyc`} render={ ()  => 
+            <DeckGLOverlay
+              viewport={viewport}
+              time={time}
+            /> 
+          }/>
+
+       </MapGL>
+    </div>
     );
   }
 }
-
 export default Home;
