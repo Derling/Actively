@@ -1,11 +1,13 @@
 import React from 'react';
 import {Route, Switch ,Redirect} from 'react-router';
-import Home from '../Home/index.js'
+import Home from '../home-map/index.js'
 import 'bootstrap/dist/css/bootstrap.css';
-import NodeTest from '../NodeTest/index.js'
+import NodeTest from '../users/index.js'
 import Sidebar from 'react-sidebar';
 import MaterialTitlePanel from './material_title_panel';
 import SidebarContent from './sidebar_content';
+import Login from '../users/login.js';
+import { NavLink} from 'react-router-dom'
 
 const styles = {
   contentHeaderMenuLink: {
@@ -55,7 +57,7 @@ class MainLayout extends React.Component {
         <span> Actively</span>
       </span>);
 	const contentLogin = (
-        <span> Login / Logout</span>
+    	<NavLink to="/login" activeClassName="active" className="label lb-lg">Login/Logout</NavLink>
       );
 	
     const sidebarProps = {
@@ -70,7 +72,6 @@ class MainLayout extends React.Component {
       transitions: this.state.transitions,
       onSetOpen: this.onSetOpen,
     };
-
     return (
       <Sidebar {...sidebarProps}>
         <MaterialTitlePanel title={contentHeader} login={contentLogin}>
@@ -79,6 +80,7 @@ class MainLayout extends React.Component {
        	 		<Switch>
           			<Route path="/" exact component={Home} />
           			<Route path="/users" exact component={NodeTest} />
+          			<Route path="/login" exact component={Login} />
           			<Redirect to="/" />
         		</Switch>
       		</main>

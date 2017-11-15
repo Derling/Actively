@@ -7,8 +7,12 @@ var bodyParser = require('body-parser');
 const models = require('./models');
 var index = require('./routes/index');
 var users = require('./routes/users');
+
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers')
+
+var test = require('./routes/test.js');
+
 
 const app = express();
 
@@ -30,6 +34,7 @@ app.use(viewHelpers.register());
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/test', test);
 
 app.use(require('./controllers/'));
 

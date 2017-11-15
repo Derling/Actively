@@ -2,19 +2,13 @@
 import React, {Component} from 'react';
 import DeckGL, {GeoJsonLayer} from 'deck.gl';
 import {setParameters} from 'luma.gl';
-
-const LIGHT_SETTINGS = {
-  lightsPosition: [-125, 50.5, 5000, -122.8, 48.5, 8000],
-  ambientRatio: 0.2,
-  diffuseRatio: 0.5,
-  specularRatio: 0.3,
-  lightsStrength: [1.0, 0.0, 2.0, 0.0],
-  numberOfLights: 2
-};
-
+import "./deckgl-overlay.css"
 
 export default class DeckGLOverlay extends Component {
-
+	
+  constructor(props) {
+    super(props);
+  }
   static get defaultViewport() {
     return {
       longitude: -74.0060,
@@ -36,27 +30,30 @@ export default class DeckGLOverlay extends Component {
     });
   }
 
+
   render() {
-    const {viewport, data } = this.props;
+    const {viewport, data} = this.props;
+	const colorScale = r => [r * 255, 140, 200 * (1 - r)];
 
     if (!data) {
       return null;
     }
 
+	//console.log(this.props);
+	//console.log(data);
     const layer = new GeoJsonLayer({
       id: 'geojson',
       data,
       stroked: true,
       filled: true,
       extruded: true,
-	  getFillColor: f => f.properties.fillColor || [25, 25, 25, 25],
 	  getRadius: f => f.properties.radius ||  50, 
-	  elevationScale: 30,
-      lightSettings: LIGHT_SETTINGS,
-
+	  pickable: Boolean(this.props.onHover || this.props.onClick),
+	  getFillColor: f => colorScale(25),
+      getLineColor: f => [255, 255, 255],
+ 	  onHover: this.props.onHover,
+      onClick: this.props.onClick,
     });
-
-	//console.log(data);
     return (
       <DeckGL {...viewport} layers={ [layer] } onWebGLInitialized={this._initialize} />
     );
