@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import DeckGL, {GeoJsonLayer} from 'deck.gl';
 import {setParameters} from 'luma.gl';
+import OptionsPanel from '../side-bar-options-panel.js';
+import { Redirect } from 'react-router';
+
+
+
 const request = require('d3-request');
 
-const DATA_URL = 'https://data.cityofnewyork.us/api/geospatial/thbt-gfu9?method=export&format=GeoJSON';   
+const DATA_URL = 'https://data.cityofnewyork.us/api/geospatial/drex-xx56?method=export&format=GeoJSON'
 const tooltipStyle = {
   position: 'absolute',
   padding: '4px',
@@ -21,6 +26,7 @@ export default class SubwayDeckGLOverlay extends Component {
     this.state = {
         data: null,
 	  		hoveredObject: null,
+        selected: null,
 				x:0,
 				y:0,
     }
@@ -43,6 +49,22 @@ export default class SubwayDeckGLOverlay extends Component {
 	_onHover({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
   }
+  /* TODO Bad Code 
+   * throws Each child in an array or 
+   * iterator should have a unit
+   * */
+  processItems(itemArray) {
+  const values = [];
+    for (let v in itemArray) {
+        let x = itemArray[v];
+        values.push(<div key={v}>{x}</div>);
+    }
+    return (
+        <div>
+            {values}
+        </div>
+    );
+  }
 
   renderHoveredItems() {
     const {x, y, hoveredObject} = this.state;
@@ -51,15 +73,16 @@ export default class SubwayDeckGLOverlay extends Component {
     }
 		return (
 				<div style={{...tooltipStyle, left: x, top: y}}>
-        <div>Subways Under-construction </div>
+        <div>Subways information</div>
         <div></div>
-        <div>{`Location: ${hoveredObject.properties.location}`}</div>
+        <div>{this.processItems(hoveredObject.properties)}</div>
       	</div>
        ); 
     }
+
   _onClick(info) {
-		console.log("Good job kid you clicked");
     this.setState({selected: info.object});
+    return <Redirect push to="/sample" />;
   }
 
   render() {
@@ -77,7 +100,7 @@ export default class SubwayDeckGLOverlay extends Component {
       stroked: true,
       filled: true,
       extruded: true,
-	  	getRadius: f => f.properties.radius ||  50, 
+	  	getRadius: f => f.properties.radius ||  10, 
 	  	pickable: Boolean(true),
 	  	getFillColor: f => colorScale(25),
       getLineColor: f => [255, 140, 200],
@@ -87,9 +110,15 @@ export default class SubwayDeckGLOverlay extends Component {
     });
     return (
 			<div>
-		  	{this.renderHoveredItems()}
-      	<DeckGL {...viewport} layers={ [layer] } onWebGLInitialized={this._initialize} />
+        <div>
+		  	  {this.renderHoveredItems()}
+      	  <DeckGL {...viewport} layers={ [layer] } onWebGLInitialized={this._initialize} />
+        </div>
+        <div>
+          <OptionsPanel />
+        </div>
 			</div>
+
     );
   }
 }
