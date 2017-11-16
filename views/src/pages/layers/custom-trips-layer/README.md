@@ -1,4 +1,5 @@
-This is a minimal standalone version of the TripsLayer example on deck.gl website.
+This is a minimal standalone version of the TripsLayer example
+on [deck.gl](http://deck.gl) website.
 
 Data format
 
