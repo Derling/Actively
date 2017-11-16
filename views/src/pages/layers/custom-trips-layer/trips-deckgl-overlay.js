@@ -39,6 +39,37 @@ export default class DeckGLOverlay extends Component {
         }
       });
   }
+
+  componentDidMount() {
+    window.addEventListener('resize', this._resize.bind(this));
+    this._resize();
+    this._animate();
+  }
+
+  componentWillUnmount() {
+    if (this._animationFrame) {
+      window.cancelAnimationFrame(this._animationFrame);
+    }
+  }
+
+  _animate() {
+    const timestamp = Date.now();
+    const loopLength = 1800;
+    const loopTime = 60000;
+
+    this.setState({
+      time: ((timestamp % loopTime) / loopTime) * loopLength
+    });
+    this._animationFrame = window.requestAnimationFrame(this._animate.bind(this));
+  }
+
+ _resize() {
+    this._onViewportChange({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+  }
+
   _initialize(gl) {
     setParameters(gl, {
       depthTest: true,
@@ -46,9 +77,15 @@ export default class DeckGLOverlay extends Component {
     });
   }
 
+  _onViewportChange(viewport) {                                                                                                                                                                                    
+    this.setState({                                                                                                                                                                                                
+      viewport: {...this.state.viewport, ...viewport}                                                                                                                                                              
+    });                                                                                                                                                                                                            
+  } 
+
   render() {
-    const {viewport, time} = this.props;
-    const {buildings, trips, trailLength } = this.state;
+    const {viewport, } = this.props;
+    const {buildings, trips, trailLength,time } = this.state;
 
 
     if (!buildings || !trips) {

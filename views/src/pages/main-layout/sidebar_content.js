@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTitlePanel from './material_title_panel';
 import PropTypes from 'prop-types';
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink} from 'react-router-dom'
 import './main.css'
 
 const styles = {	
