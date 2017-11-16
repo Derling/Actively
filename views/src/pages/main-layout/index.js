@@ -62,8 +62,9 @@ class MainLayout extends React.Component {
 	  const contentLogin = (
         <NavLink to="/login" 
           activeClassName="active" 
-          className="label lb-lg">Login/Logout
-        </NavLink>);
+          className="label lb-md">Login/Logout
+        </NavLink>
+		);
     const sidebarProps = {
       sidebar: sidebar,
       docked: this.state.docked,
@@ -85,7 +86,7 @@ class MainLayout extends React.Component {
           			<Route path="/layer" component={Home} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
-					<Redirect to="/" />
+								<Redirect to="/" />
         		</Switch>
       		</main>
           </div>
