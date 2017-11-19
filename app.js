@@ -45,4 +45,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Cache and 304 status code
+app.disable('etag');
+
 module.exports = app;

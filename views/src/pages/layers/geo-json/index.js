@@ -20,7 +20,7 @@ const tooltipStyle = {
   pointerEvents: 'none'
 };
 
-export default class SubwayDeckGLOverlay extends Component {
+export default class GeoJsonLayerDeckGLOverlay extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,33 +49,20 @@ export default class SubwayDeckGLOverlay extends Component {
 	_onHover({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
   }
-  /* TODO Bad Code 
-   * throws Each child in an array or 
-   * iterator should have a unit
-   * */
-  processItems(itemArray) {
-  const values = [];
-    for (let v in itemArray) {
-        let x = itemArray[v];
-        values.push(<div key={v}>{x}</div>);
-    }
-    return (
-        <div>
-            {values}
-        </div>
-    );
-  }
 
   renderHoveredItems() {
     const {x, y, hoveredObject} = this.state;
     if (!hoveredObject) {
       return null;
     }
+		const items = [hoveredObject.properties];
 		return (
 				<div style={{...tooltipStyle, left: x, top: y}}>
         <div>Subways information</div>
         <div></div>
-        <div>{this.processItems(hoveredObject.properties)}</div>
+				{items.map(item =>
+          <div className="label label-default" key={item.objectid}>{item.name} {item.line}</div>
+        )}
       	</div>
        ); 
     }

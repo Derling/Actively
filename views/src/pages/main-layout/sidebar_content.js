@@ -44,10 +44,13 @@ const SidebarContent = (props) => {
     		<NavLink to="/users" activeClassName="active" className="label lb-lg">NodeTest</NavLink>
       	<div style={styles.divider} />
 				<div className="row">
-    			<NavLink to="/layer/subway" activeClassName="active" className="label lb-lg">Subway info</NavLink>
+    			<NavLink to="/layer/subway" activeClassName="active" className="label lb-lg">Geo Json Info</NavLink>
 				</div>
 				<div className="row">
     			<NavLink to="/layer/taxi-trips-nyc" activeClassName="active" className="label lb-lg">Taxi Trips</NavLink>
+				</div>
+				<div className="row">
+    			<NavLink to="/layer/icons" activeClassName="active" className="label lb-lg">Icon Layer</NavLink>
 				</div>
 			</div>
     </MaterialTitlePanel>

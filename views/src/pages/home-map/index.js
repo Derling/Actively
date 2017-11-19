@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import MapGL from 'react-map-gl';
-import SubwayDeckGLOverlay from '../layers/geo-json/subway-overlay.js';
+import GeoJsonDeckGLOverlay from '../layers/geo-json/index.js';
 import DeckGLOverlay from '../layers/custom-trips-layer/trips-deckgl-overlay.js';
+import IconDeckGLOverlay from '../layers/icon/index.js';
 import {Route} from 'react-router';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MapboxAccessToken; // eslint-disable-line
@@ -55,9 +56,11 @@ class Home extends Component {
           onViewportChange={this._onViewportChange.bind(this)}
           mapboxApiAccessToken={MAPBOX_TOKEN}>
           <Route path={`${this.props.match.url}/subway`} render={ ()  => 
-            	<SubwayDeckGLOverlay viewport={viewport}/> }/>
+            	<GeoJsonDeckGLOverlay viewport={viewport}/> }/>
           <Route path={`${this.props.match.url}/taxi-trips-nyc`} render={ ()  => 
             <DeckGLOverlay viewport={viewport} /> }/>
+					<Route path={`${this.props.match.url}/icons`} render={ ()  => 
+            <IconDeckGLOverlay viewport={viewport} /> }/>
        </MapGL>
     </div>
     );
