@@ -3,21 +3,19 @@ import DeckGL, {GeoJsonLayer} from 'deck.gl';
 import {setParameters} from 'luma.gl';
 import OptionsPanel from '../side-bar-options-panel.js';
 import { Redirect } from 'react-router';
-
-
-
 const request = require('d3-request');
 
 const DATA_URL = 'https://data.cityofnewyork.us/api/geospatial/drex-xx56?method=export&format=GeoJSON'
 const tooltipStyle = {
   position: 'absolute',
-  padding: '4px',
+  padding: '10px',
   background: 'rgba(0, 0, 0, 0.8)',
   color: '#fff',
   maxWidth: '300px',
-  fontSize: '10px',
+  fontSize: '15px',
   zIndex: 9,
-  pointerEvents: 'none'
+  pointerEvents: 'none',
+
 };
 
 export default class GeoJsonLayerDeckGLOverlay extends Component {
@@ -81,7 +79,7 @@ export default class GeoJsonLayerDeckGLOverlay extends Component {
       return null;
     }
 
-    const layer = new GeoJsonLayer({
+    const subwaylayer = new GeoJsonLayer({
       id: 'geojson',
       data,
       stroked: true,
@@ -99,7 +97,7 @@ export default class GeoJsonLayerDeckGLOverlay extends Component {
 			<div>
         <div>
 		  	  {this.renderHoveredItems()}
-      	  <DeckGL {...viewport} layers={ [layer] } onWebGLInitialized={this._initialize} />
+      	  <DeckGL {...viewport} layers={ [subwaylayer] } onWebGLInitialized={this._initialize} />
         </div>
         <div>
           <OptionsPanel />
