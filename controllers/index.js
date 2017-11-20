@@ -1,9 +1,14 @@
 const express = require('express');
+const models = require('../models');
+const passport = require('../middlewares/authentication');
+const Redirect = require('../middlewares/redirect');
 const router = express.Router();
 
-/* GET home page
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-*/
+router.use('/', require('./home'));
+router.use('/login',require('./login'));
+router.use('/signup',require('./signup'));
+router.use('/logout', require('./logout'));
+
+
 module.exports = router;
+

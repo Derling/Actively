@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        msg: 'Username already in use!'
+      },
       validate: {
         notEmpty: true,
         isAlphanumeric: true,
@@ -28,17 +31,20 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notEmpty: true,
         isEmail: true,
+      },
+      unique: {
+        args: true,
+        msg: 'Email address already in use!'
       },
     },
     password_hash: {
       type: DataTypes.STRING,
     },
     password: {
-      type: DataTypes.VIRTUAL,
+      type: DataTypes.VIRTUAL,   //VIRTUAL
       validate: {
         notEmpty: true,
       },

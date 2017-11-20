@@ -1,12 +1,11 @@
-const express = require('express');
 const models = require('../models');
-
+const express = require('express');
 const router = express.Router();
 
 
 router.get('/', (req, res) => {
   res.json({
-    msg: "Successful GET to '/' route"
+    msg: "This is home"
   });
 });
 
