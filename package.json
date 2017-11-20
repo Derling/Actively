@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "echo You still have to cd views npm start && PORT=8000 nodemon bin/www ",
+    "start": "PORT=8000 nodemon bin/www ",
     "build": "cd views && npm run build",
     "test": "cd views && npm run test ",
     "lint": "eslint .; exit 0"
@@ -16,7 +16,9 @@
     "express": "~4.15.5",
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "request": "2.83.0",
+    "string-format": "0.5.0"
   },
   "devDependencies": {
     "eslint": "^4.10.0",

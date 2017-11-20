@@ -2,11 +2,22 @@ import React, {Component} from 'react';
 import DeckGL, {IconLayer, WebMercatorViewport} from 'deck.gl';
 import rbush from 'rbush';
 import {json as requestJson} from 'd3-request';
+import ICON from './data/location-icon-atlas.png';
+const DATA_URL = '/apis/meetup?lon=-73.935242&lat=40.73061';  // eslint-disable-line
 
-const DATA_URL = 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/icon/meteorites.json';  // eslint-disable-line
+const tooltipStyle = {
+  position: 'absolute',
+  padding: '10px',
+  background: 'rgba(0, 0, 0, 0.8)',
+  color: '#fff',
+  maxWidth: '300px',
+  fontSize: '15px',
+  zIndex: 9,
+  pointerEvents: 'none',
+	wordWrap: 'break-word',
+};
 
-
-const ICON_SIZE = 60;
+const ICON_SIZE = 5;
 
 function getIconName(size) {
   if (size === 0) {
@@ -31,7 +42,6 @@ export default class IconDeckGLOverlay extends Component {
     super(props);
 
     // build spatial index
-    this._tree = rbush(9, ['.x', '.y', '.x', '.y']);
     this.state = {
       x: 0,
       y: 0,
@@ -39,7 +49,7 @@ export default class IconDeckGLOverlay extends Component {
       expanded: false,
  			data: null,
       iconMapping: null,
- 			iconAtlas:"https://raw.githubusercontent.com/uber/deck.gl/4.1-release/examples/icon/data/location-icon-atlas.png"
+	  	hoveredObject: null,
     };
 		requestJson(DATA_URL, (error, response) => {
       if (!error) {
@@ -50,87 +60,42 @@ export default class IconDeckGLOverlay extends Component {
       .then(res => res.json())
       .then(json => 
 			{this.setState({iconMapping: json});}).catch( error => {console.log(error)});
-    this._updateCluster(props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {viewport} = nextProps;
-    const oldViewport = this.props.viewport;
-
-    if (nextProps.data !== this.props.data ||
-      viewport.width !== oldViewport.width ||
-      viewport.height !== oldViewport.height) {
-      this._updateCluster(nextProps);
-    }
+	_onHover({x,y,object}) {
+    this.setState({x, y, hoveredObject: object});
   }
 
-  // Compute icon clusters
-  // We use the projected positions instead of longitude and latitude to build
-  // the spatial index, because this particular dataset is distributed all over
-  // the world, we can't use some fixed deltaLon and deltaLat
-  _updateCluster({data, viewport}) {
-    if (!data) {
-      return;
+  renderHoveredItems() {
+    const {x, y, hoveredObject} = this.state;
+    if (!hoveredObject) {
+      return null;
     }
-
-    const tree = this._tree;
-
-    const transform = new WebMercatorViewport({
-      ...viewport,
-      zoom: 0
-    });
-
-    data.forEach(p => {
-      const screenCoords = transform.project(p.coordinates);
-      p.x = screenCoords[0];
-      p.y = screenCoords[1];
-      p.zoomLevels = [];
-    });
-
-    tree.clear();
-    tree.load(data);
-
-    for (let z = 0; z <= 20; z++) {
-      const radius = ICON_SIZE / 2 / Math.pow(2, z);
-
-      data.forEach(p => {
-        if (p.zoomLevels[z] === undefined) {
-          // this point does not belong to a cluster
-          const {x, y} = p;
-
-          // find all points within radius that do not belong to a cluster
-          const neighbors = tree.search({
-            minX: x - radius,
-            minY: y - radius,
-            maxX: x + radius,
-            maxY: y + radius
-          })
-          .filter(neighbor => neighbor.zoomLevels[z] === undefined);
-
-          // only show the center point at this zoom level
-          neighbors.forEach(neighbor => {
-            if (neighbor === p) {
-              p.zoomLevels[z] = {
-                icon: getIconName(neighbors.length),
-                size: getIconSize(neighbors.length),
-                points: neighbors
-              };
-            } else {
-              neighbor.zoomLevels[z] = null;
-            }
-          });
-        }
-      });
+		const items=[hoveredObject];
+		const wrapWord = {
+			wordWrap: 'break-word'
+		}
+		return (
+				<div style={{...tooltipStyle, left: x, top: y}}>
+        <div>Subways information</div>
+        <div></div>
+				{items.map(item =>
+          <div style={wrapWord} key={item.event_id}>
+						<div>{item.event_name}</div>
+						<div style={wrapWord}>{item.description}</div>
+						<div>{item.url}</div>
+					</div>
+        )}
+      	</div>
+       ); 
     }
-  }
 
   render() {
     const {viewport} = this.props;
-		const {data, iconAtlas, iconMapping, showCluster} = this.state;
+		const {data,  iconMapping, showCluster} = this.state;
     if (!data || !iconMapping) {
       return null;
     }
-		console.log(iconMapping);
 
     const z = Math.floor(viewport.zoom);
     const size = showCluster ? 1 : Math.min(Math.pow(1.5, viewport.zoom - 10), 1);
@@ -139,14 +104,14 @@ export default class IconDeckGLOverlay extends Component {
     const layer = new IconLayer({
       id: 'icon',
       data,
-      pickable: this.props.onHover || this.props.onClick,
-      iconAtlas,
+      pickable: true,
+      iconAtlas: ICON,
       iconMapping,
       sizeScale: ICON_SIZE * size * window.devicePixelRatio,
       getPosition: d => d.coordinates,
       getIcon: d => showCluster ? (d.zoomLevels[z] && d.zoomLevels[z].icon) : 'marker',
       getSize: d => showCluster ? (d.zoomLevels[z] && d.zoomLevels[z].size) : 20,
-      onHover: this.props.onHover,
+ 	  	onHover: this._onHover.bind(this),
       onClick: this.props.onClick,
       updateTriggers: {
         getIcon: updateTrigger,
@@ -154,6 +119,11 @@ export default class IconDeckGLOverlay extends Component {
       }
     });
 
-    return <DeckGL {...viewport} layers={ [layer] } />;
+    return (
+			<div>
+		  {this.renderHoveredItems()}
+			<DeckGL {...viewport} layers={ [layer] } />;
+			</div>
+		);
   }
 }

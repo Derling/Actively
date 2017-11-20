@@ -3,7 +3,6 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-	console.log("Test request");
   res.json({
   "marker-1": {
     "x": 0,
