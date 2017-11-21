@@ -8,8 +8,6 @@ const models = require('./models/');
 //const index = require('./routes/index');
 //const users = require('./routes/users');
 
-const index = require('./routes/index');
-const users = require('./routes/users');
 const test = require('./routes/test.js');
 const meetup = require('./routes/meetup');
 
@@ -18,7 +16,6 @@ const viewHelpers = require('./middlewares/viewHelpers')
 
 
 
-const test = require('./routes/test.js');
 const app = express();
 
 // view engine setup
