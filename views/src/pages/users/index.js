@@ -9,7 +9,7 @@ class NodeTest extends Component {
   }
   constructor() {
       super();
-      this.state = { users : ["Sam"] };
+      this.state = { users : []};
   }
 
   render() {
@@ -17,7 +17,7 @@ class NodeTest extends Component {
 		<div className="container">
         <h1>Users</h1>
         {this.state.users.map(user =>
-          <div className="label label-default"key={user.id}> {user.username}</div>
+          <div className="label label-default" key={user.id}> {user.username}</div>
         )}
 		</div>
     );

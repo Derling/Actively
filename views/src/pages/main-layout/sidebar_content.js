@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTitlePanel from './material_title_panel';
 import PropTypes from 'prop-types';
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink} from 'react-router-dom'
 import './main.css'
 
 const styles = {	
@@ -24,7 +24,7 @@ const styles = {
   content: {
     padding: '16px',
     height: '100%',
-	textAlign: 'left',
+		textAlign: 'left',
     color: 'white',
     fontFamily: '"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
   }, 
@@ -39,14 +39,20 @@ const SidebarContent = (props) => {
   return (
     <MaterialTitlePanel title="Menu" style={style}>
       <div style={styles.content}>
-    	<NavLink to="/" activeClassName="active" className="label lb-lg">Home</NavLink>
-		<br></br>
-    	<NavLink to="/users" activeClassName="active" className="label lb-lg">NodeTest</NavLink>
-        <div style={styles.divider} />
-			<div className="row">
-    			<NavLink to="/" activeClassName="active" params={{ testvalue: "hello" }} className="label lb-lg">DataTest</NavLink>
+    		<NavLink to="/layer" activeClassName="active" className="label lb-lg">Home</NavLink>
+				<br></br>
+    		<NavLink to="/users" activeClassName="active" className="label lb-lg">NodeTest</NavLink>
+      	<div style={styles.divider} />
+				<div className="row">
+    			<NavLink to="/layer/subway" activeClassName="active" className="label lb-lg">Geo Json Info</NavLink>
+				</div>
+				<div className="row">
+    			<NavLink to="/layer/taxi-trips-nyc" activeClassName="active" className="label lb-lg">Taxi Trips</NavLink>
+				</div>
+				<div className="row">
+    			<NavLink to="/layer/icons" activeClassName="active" className="label lb-lg">Icon Layer</NavLink>
+				</div>
 			</div>
-		</div>
     </MaterialTitlePanel>
   );
 };
