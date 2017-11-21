@@ -8,6 +8,7 @@ import MaterialTitlePanel from './material_title_panel';
 import SidebarContent from './sidebar_content';
 import Login from '../users/login.js';
 import { NavLink} from 'react-router-dom'
+import SignUp from '../users/signup.js';
 
 const styles = {
   contentHeaderMenuLink: {
@@ -59,6 +60,9 @@ class MainLayout extends React.Component {
 	const contentLogin = (
     	<NavLink to="/login" activeClassName="active" className="label lb-lg">Login/Logout</NavLink>
       );
+  const contentSignUp = (
+      <NavLink to="/signup" activeClassName="active" className="label lb-lg">Signup</NavLink>
+      );
 	
     const sidebarProps = {
       sidebar: sidebar,
@@ -74,13 +78,14 @@ class MainLayout extends React.Component {
     };
     return (
       <Sidebar {...sidebarProps}>
-        <MaterialTitlePanel title={contentHeader} login={contentLogin}>
+        <MaterialTitlePanel title={contentHeader} login={contentLogin} >
           <div style={styles.content}>
 				<main>
        	 		<Switch>
           			<Route path="/" exact component={Home} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
+                <Route path="/signup" exact component={SignUp} />
           			<Redirect to="/" />
         		</Switch>
       		</main>
