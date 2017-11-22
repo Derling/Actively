@@ -4,6 +4,7 @@ This is a simple React app with an Express back-end
 Found this tutorial on Dave Ceddia's website: https://daveceddia.com/create-react-app-express-backend/
 
 # Installation
+### Make sure you have the views/development.env file with proper API keys.
 ```
 npm install
 cd views
