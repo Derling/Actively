@@ -3,7 +3,7 @@ module.exports = (req, res) => {
   const { lat, lon } = req.query;
   const options = {
     method: 'GET',
-    url: "https://api.meetup.com/2/open_events?",
+    url: "https://api.meetup.com/2/open_events",
     qs: {
         // TODO API key should be hidden 
         key: '5b496e111b404d173f3c1c3414e31b',
