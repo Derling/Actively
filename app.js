@@ -38,12 +38,8 @@ app.use(flash());
 //app.use('/', index);
 //app.use('/users', users);
 app.use('/test', test);
-<<<<<<< HEAD
-=======
 app.use('/apis/meetup', meetup);
 
-
->>>>>>> f5b213dab29fcafa3282cd6540ae636249b48c90
 app.use(require('./controllers/'));
 
 
