@@ -12,6 +12,7 @@ module.exports = (req, res) => {
         sign:true,
     },
   }
+  /* Asynchronous Operation */
 	request(options)
   .then( (response) =>{
 		  const resp = []
