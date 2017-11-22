@@ -4,14 +4,23 @@ const Redirect = require('../middlewares/redirect');
 const models = require('../models');
 const router = express.Router();
 
+
+
 router.get('/',(req,res) => {
-  res.json({
-    msg: "This is login page"
-  })
+  			res.json({
+    			msg: "This is login page"
+  			})
+		});
+
+router.post('/', passport.authenticate('local',  { 
+           failureRedirect: '/login',
+            }), 
+		   (req,res)=>{
+	res.json({msg: 'Username is ' + req.user.username});
 })
 
-router.post('/', passport.authenticate('local'),(req,res)=>{
-	res.json({msg: "Successfully logged in"})
-})
+
 
 module.exports = router;
+
+//res.json({msg: "Successfully logged in"})

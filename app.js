@@ -11,7 +11,7 @@ const models = require('./models/');
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers')
 
-
+const flash = require('connect-flash');
 
 const test = require('./routes/test.js');
 const app = express();
@@ -23,19 +23,19 @@ const app = express();
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(express.session({secret: 'keyboard cat'}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(viewHelpers.register());
-
+app.use(flash());
 //app.use('/', index);
 //app.use('/users', users);
 app.use('/test', test);
-
 app.use(require('./controllers/'));
 
 
