@@ -1,12 +1,4 @@
-*,
-*::after,
-*::before {
-	box-sizing: border-box;
-}
-.navbar{
-   margin-bottom: 0!important;
-}
-
+/* This file only exists bc its easier than inline css */
 body {
 	font-family: 'Nunito', sans-serif;
 	min-height: 100vh;
@@ -14,16 +6,6 @@ body {
 	background-color: #fff;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-
-.App {
-  text-align: center;
-  color: white;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  opacity: '1.0';
 }
 
 a:visited {
@@ -40,12 +22,5 @@ a:visited {
 
 .lb-lg {
   font-size: 25px;
-}
-
-.switch-container {
-	position: relative;
-	top: 50%; left: 50%;
-	-webkit-transform: translate3d( -50%, -50%, 0 );
-	transform: translate3d( -50%, -50%, 0 );
 }
 

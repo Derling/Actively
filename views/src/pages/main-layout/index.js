@@ -1,5 +1,5 @@
 /* React Requirements */
-import React from 'react';
+import React, {Component} from 'react';
 import {Route, Switch ,Redirect} from 'react-router';
 import 'bootstrap/dist/css/bootstrap.css';
 /* Main Components */
@@ -20,7 +20,9 @@ const styles = {
   },
 };
 
-class MainLayout extends React.Component {
+/* Main Layout all components,
+ * with navbar support must pass through here */
+class MainLayout extends Component {
   constructor(props) {
     super(props);
 
@@ -78,10 +80,10 @@ class MainLayout extends React.Component {
       onSetOpen: this.onSetOpen,
     };
     return (
-      <Sidebar {...sidebarProps}>
-        <MaterialTitlePanel title={contentHeader} login={contentLogin}>
-          <div style={styles.content}>
-				<main>
+    <Sidebar {...sidebarProps}>
+      <MaterialTitlePanel title={contentHeader} login={contentLogin}>
+        <div style={styles.content}>
+				  <main>
        	 		<Switch>
           			<Route path="/layer" component={Home} />
           			<Route path="/users" exact component={NodeTest} />
