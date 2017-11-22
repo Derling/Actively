@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "echo You still have to cd views npm start && PORT=8000 nodemon bin/www ",
+    "start": "PORT=8000 nodemon bin/www ",
     "build": "cd views && npm run build",
     "test": "cd views && npm run test ",
     "lint": "eslint .; exit 0"
@@ -20,11 +20,12 @@
     "express-session": "^1.15.6",
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
+    "request": "2.83.0",
+    "string-format": "0.5.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.4.0",
-    "sequelize": "^4.22.5",
-    "serve-favicon": "~2.4.5"
+    "sequelize": "^4.22.5"
   },
   "devDependencies": {
     "eslint": "^4.10.0",

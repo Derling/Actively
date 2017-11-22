@@ -1,19 +1,21 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const models = require('./models/');
-//var index = require('./routes/index');
-//var users = require('./routes/users');
+//const index = require('./routes/index');
+//const users = require('./routes/users');
+
+const test = require('./routes/test.js');
+const meetup = require('./routes/meetup');
 
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers')
 
 const flash = require('connect-flash');
 
-const test = require('./routes/test.js');
 const app = express();
 
 // view engine setup
@@ -36,9 +38,18 @@ app.use(flash());
 //app.use('/', index);
 //app.use('/users', users);
 app.use('/test', test);
+<<<<<<< HEAD
+=======
+app.use('/apis/meetup', meetup);
+
+
+>>>>>>> f5b213dab29fcafa3282cd6540ae636249b48c90
 app.use(require('./controllers/'));
 
 
+
+// Cache and 304 status code
+app.disable('etag');
 
 module.exports = app;
 
