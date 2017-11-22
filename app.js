@@ -12,6 +12,8 @@ const viewHelpers = require('./middlewares/viewHelpers')
 
 const app = express();
 
+
+
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
 app.use(bodyParser.json());

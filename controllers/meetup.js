@@ -9,14 +9,14 @@ module.exports = (req, res) => {
         key: '5b496e111b404d173f3c1c3414e31b',
         lat: lat,
         lon:lon,
-        sign:true,
     },
+    json: true, // No need to parse 
   }
   /* Asynchronous Operation */
 	request(options)
   .then( (response) =>{
 		  const resp = []
-			let events = JSON.parse(response).results; // array of all events
+			let events = response.results; // array of all events
 			for(event in events){ // parse relevant data
 				resp.push({
 					event_id: events[event]['group']['id'],
@@ -27,6 +27,6 @@ module.exports = (req, res) => {
 				});
 			};
 			res.json(resp);
-	})
-  .catch( (error) => {console.log("Error in Meetup request")});
+	 })
+  .catch( (error) => {console.log("Error in Meetup request",error)});
 };
