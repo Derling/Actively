@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const models = require('./models/');
 const test = require('./routes/express-test.js');
 const meetup = require('./routes/meetup');
+const foursquare = require('./routes/foursquare.js');
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers')
 
@@ -24,6 +25,7 @@ app.use(viewHelpers.register());
 
 app.use('/test', test);
 app.use('/apis/meetup', meetup);
+app.use('/apis/foursquare', foursquare);
 
 app.use(require('./controllers/'));
 

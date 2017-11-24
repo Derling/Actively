@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import DeckGL, {IconLayer} from 'deck.gl';
 import {json as requestJson} from 'd3-request';
 import ICON from './data/media.png';
-const DATA_URL = '/apis/meetup?lon=-73.935242&lat=40.73061';  // eslint-disable-line
+const DATA_MEETUP = '/apis/meetup?lon=-73.935242&lat=40.73061';  // eslint-disable-line
+const DATA_FOURSQUARE = '/apis/foursquare?lon=-74.0018&lat=40.7243' ;  // eslint-disable-line
 const ICON_SIZE = 5;
 
 /* Required Field lets DeckGl map the ICON*/
@@ -32,21 +33,23 @@ export default class IconDeckGLOverlay extends Component {
       y: 0,
       hoveredItems: null,
       expanded: false,
- 			data: null,
+ 			dataMeetup: null,
 	  	hoveredObject: null,
     };
-		requestJson(DATA_URL, (error, response) => {
+		requestJson(DATA_MEETUP, (error, response) => {
       if (!error) {
-        this.setState({data: response});
+        this.setState({dataMeetup: response});
       }
+    });
+    requestJson(DATA_FOURSQUARE, (error, response) => {
     });
   }
 
-	_onHover({x,y,object}) {
+	_onHoverMeetUp({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
   }
 
-  renderHoveredItems() {
+  renderHoveredItemsMeetUp() {
     const {x, y, hoveredObject} = this.state;
     if (!hoveredObject) {
       return null;
@@ -75,13 +78,13 @@ export default class IconDeckGLOverlay extends Component {
 
   render() {
     const {viewport} = this.props;
-		const {data} = this.state;
-    if (!data) {
+		const {dataMeetup} = this.state;
+    if (!dataMeetup) {
       return null;
     }
     const layer = new IconLayer({
       id: 'icon',
-      data,
+      data: dataMeetup,
       pickable: true,
       iconAtlas: ICON,
       iconMapping: ICON_MAPPING,
@@ -89,13 +92,13 @@ export default class IconDeckGLOverlay extends Component {
       getPosition: d => d.coordinates,
       getIcon: d => 'marker',
       getSize: d => 20,
- 	  	onHover: this._onHover.bind(this),
+ 	  	onHover: this._onHoverMeetUp.bind(this),
       onClick: this._onClick.bind(this),
     });
 
     return (
 			<div>
-		  	{this.renderHoveredItems()}
+		  	{this.renderHoveredItemsMeetUp()}
 				<DeckGL {...viewport} layers={ [layer] } />;
 			</div>
 		);
