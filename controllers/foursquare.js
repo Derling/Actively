@@ -1,14 +1,14 @@
 const request = require('request-promise');
 module.exports = (req, res) => {
-  const { lat, lon } = req.query;
+  const {client_id,client_secret,lat, lon } = req.query;
   const coordinates = lat+","+lon;
   const options = {
     method: 'GET',
     url: "https://api.foursquare.com/v2/venues/explore",
     qs: {
       // TODO API key should be hidden 
-      client_id:"",
-      client_secret:"", 
+      client_id:client_id,
+      client_secret:client_secret, 
       v:"20170101", 
       ll:coordinates,
       novelty:	'new',
@@ -19,11 +19,10 @@ module.exports = (req, res) => {
 	request(options)
   .then( (response) =>{
 		  const resp = []
-      console.log(response);
 			let events = response.response.groups[0].items; // array of all events
       events.forEach( (event) => {
-        console.log(event);
 				resp.push({
+					foursquare_id: event.venue.id,
           name: event.venue.name,
           venue: event.venue.rating,
           tips: event.tips[0].text,
