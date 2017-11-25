@@ -3,7 +3,7 @@ import DeckGL, {IconLayer} from 'deck.gl';
 import {json as requestJson} from 'd3-request';
 import ICON from './data/media.png';
 const DATA_MEETUP = '/apis/meetup?lon=-73.935242&lat=40.73061';  // eslint-disable-line
-const DATA_FOURSQUARE = '/apis/foursquare?lon=-74.0018&lat=40.7243' ;  // eslint-disable-line
+const DATA_FOURSQUARE = '/apis/foursquare/explore?lon=-74.0018&lat=40.7243' ;  // eslint-disable-line
 const ICON_SIZE = 5;
 
 /* Required Field lets DeckGl map the ICON*/
@@ -34,6 +34,7 @@ export default class IconDeckGLOverlay extends Component {
       hoveredItems: null,
       expanded: false,
  			dataMeetup: null,
+      dataFoursquare: null,
 	  	hoveredObject: null,
     };
 		requestJson(DATA_MEETUP, (error, response) => {
@@ -42,10 +43,13 @@ export default class IconDeckGLOverlay extends Component {
       }
     });
     requestJson(DATA_FOURSQUARE, (error, response) => {
+      if (!error) {
+        this.setState({dataFoursquare: response});
+      }
     });
   }
 
-	_onHoverMeetUp({x,y,object}) {
+	_onHover({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
   }
 
@@ -55,14 +59,11 @@ export default class IconDeckGLOverlay extends Component {
       return null;
     }
 		const items=[hoveredObject];
-		const wrapWord = {wordWrap: 'break-word'}
-    /* TODO change item.description to dangerous HTML and smaller render */
-		return (
-				<div style={{...tooltipStyle, left: x, top: y}}>
-        <div>Meetup information</div>
-        <div></div>
-				{items.map(item =>
-          <div style={wrapWord} key={item.event_id}>
+		const wrapWord = {wordWrap: 'break-word'};
+      /* TODO change item.description to dangerous HTML and smaller render */ 
+      return ( 
+          <div style={{...tooltipStyle, left: x, top: y}}> 
+            <div>Meetup information</div> <div></div> {items.map(item => <div style={wrapWord} key={item.event_id}>
 						<div>{item.event_name}</div>
 						<div style={wrapWord}>{item.description}</div>
 						<div>{item.url}</div>
@@ -71,6 +72,30 @@ export default class IconDeckGLOverlay extends Component {
       	</div>
        ); 
     }
+
+   renderHoveredItemsFourSquare() {
+    const {x, y, hoveredObject} = this.state;
+    if (!hoveredObject) {
+      return null;
+    }
+    const items=[hoveredObject];
+    const wrapWord = {wordWrap: 'break-word'}
+    /* TODO change item.description to dangerous HTML and smaller render */
+    return (
+        <div style={{...tooltipStyle, left: x, top: y}}>
+        <div>Foursquare information</div>
+        <div></div>
+        {items.map(item =>
+          <div style={wrapWord} key={item.event_id}>
+            <div>{item.event_name}</div>
+            <div style={wrapWord}>{item.description}</div>
+            <div>{item.url}</div>
+          </div>
+        )}
+        </div>
+       );
+    }
+
   /* TODO add more functionally other than logging*/
   _onClick({x,y,object}) {
     console.log("Clicked icon:",object);
@@ -78,11 +103,11 @@ export default class IconDeckGLOverlay extends Component {
 
   render() {
     const {viewport} = this.props;
-		const {dataMeetup} = this.state;
+		const {dataMeetup, dataFoursquare} = this.state;
     if (!dataMeetup) {
       return null;
     }
-    const layer = new IconLayer({
+    const meetup = new IconLayer({
       id: 'icon',
       data: dataMeetup,
       pickable: true,
@@ -92,14 +117,29 @@ export default class IconDeckGLOverlay extends Component {
       getPosition: d => d.coordinates,
       getIcon: d => 'marker',
       getSize: d => 20,
- 	  	onHover: this._onHoverMeetUp.bind(this),
+ 	  	onHover: this._onHover.bind(this),
       onClick: this._onClick.bind(this),
     });
+    const foursquare = new IconLayer({
+      id: 'icon',
+      data: dataFoursquare,
+      pickable: true,
+      iconAtlas: ICON,
+      iconMapping: ICON_MAPPING,
+      sizeScale: ICON_SIZE * window.devicePixelRatio,
+      getPosition: d => d.coordinates,
+      getIcon: d => 'marker',
+      getSize: d => 20,
+ 	  	onHover: this._onHover.bind(this),
+      onClick: this._onClick.bind(this),
+    });
+
+		  	//{this.renderHoveredItemsFourSquare()}
 
     return (
 			<div>
 		  	{this.renderHoveredItemsMeetUp()}
-				<DeckGL {...viewport} layers={ [layer] } />;
+				<DeckGL {...viewport} layers={ [meetup,foursquare] } />;
 			</div>
 		);
   }

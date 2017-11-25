@@ -9,7 +9,7 @@ module.exports = (req, res) => {
       // TODO API key should be hidden 
       client_id:"",
       client_secret:"", 
-      v:"20171127", 
+      v:"20170101", 
       ll:coordinates,
       novelty:	'new',
       radius:	100000,
@@ -19,9 +19,10 @@ module.exports = (req, res) => {
 	request(options)
   .then( (response) =>{
 		  const resp = []
-      //console.log(response);
+      console.log(response);
 			let events = response.response.groups[0].items; // array of all events
       events.forEach( (event) => {
+        console.log(event);
 				resp.push({
           name: event.venue.name,
           venue: event.venue.rating,
@@ -31,5 +32,5 @@ module.exports = (req, res) => {
       });
 			res.json(resp);
 	})
-  .catch( (error) => {console.log("Error in foursquare request")});
+  .catch( (error) => {console.log("Error in foursquare explore request",error.message)});
 };
