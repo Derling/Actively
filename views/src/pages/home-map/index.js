@@ -12,7 +12,7 @@ const MAPBOX_TOKEN = process.env.REACT_APP_MapboxAccessToken; // eslint-disable-
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+		this.state = {
       viewport: {
         longitude: -74.0060,
         latitude: 40.7128,
@@ -24,12 +24,24 @@ class Home extends Component {
         height: 500,
       },
     };	
-  }
+	}
 
 	componentDidMount() {
     window.addEventListener('resize', this._resize.bind(this));
+		this._getUserCoord();
     this._resize();
-  }
+	}
+	_getUserCoord() {
+		/* Thanks Mozilla for having a easy Geolocation object */
+		navigator.geolocation.watchPosition( (position) => {
+			this.setState((prevState) => {
+				prevState.viewport.longitude = position.coords.longitude;
+				prevState.viewport.latitude = position.coords.latitude;
+				return prevState;
+			});
+			this.forceUpdate( () => {console.log("Coord updated")});
+		});	
+	}
 	_resize() {
   	this._onViewportChange({
       width: window.innerWidth,

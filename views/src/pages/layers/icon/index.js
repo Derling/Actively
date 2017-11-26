@@ -3,9 +3,8 @@ import DeckGL, {IconLayer} from 'deck.gl';
 import {json as requestJson} from 'd3-request';
 import MEETUP_ICON from './data/media.png';
 import FOURSQUARE_ICON from './data/logo-foursquare.png'
-const DATA_MEETUP = '/apis/meetup?lon=-73.935242&lat=40.73061';
-const DATA_FOURSQUARE = '/apis/foursquare/explore?client_id='+process.env.REACT_APP_FourSquareClientId+'&client_secret='+process.env.REACT_APP_FourSquareClientSec+'&lon=-74.0018&lat=40.7243' ;  
 const ICON_SIZE = 5;
+
 const MEETUP_MAPPING = {
   marker: {x: 0, y: 0, width: 520, height: 520, mask: false}
 };
@@ -31,8 +30,7 @@ const tooltipStyle = {
 export default class IconDeckGLOverlay extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
+		this.state = {
       x: 0,
       y: 0,
       hoveredItems: null,
@@ -41,18 +39,30 @@ export default class IconDeckGLOverlay extends Component {
       dataFoursquare: null,
 	  	hoveredObject: null,
     };
-		requestJson(DATA_MEETUP, (error, response) => {
-      if (!error) {
-        this.setState({dataMeetup:response});
-      }
-    });
-    requestJson(DATA_FOURSQUARE, (error, response) => {
-      if (!error) {
-        this.setState({dataFoursquare: response});
-      }
-    });
-  }
+		/* TODO Higher Level Component does not update 
+		 * the props passed to get json data 
+		 * aka navigator.geolocation.watchPosition call back finishes but json already rendered
+		*/
 
+		const {viewport}= this.props;
+		let lon = viewport.longitude;
+		let lat = viewport.latitude;
+		let coordinates = 'lon='+lon+'&lat='+lat;
+		const DATA_MEETUP = '/apis/meetup?'+coordinates;
+		requestJson(DATA_MEETUP, (error, response) => {
+    if (!error) {
+    	this.setState({dataMeetup:response});
+     }
+   	});
+		const DATA_FOURSQUARE = '/apis/foursquare/explore?'+coordinates
+			+'&client_id='+process.env.REACT_APP_FourSquareClientId
+			+'&client_secret='+process.env.REACT_APP_FourSquareClientSec; 
+   	requestJson(DATA_FOURSQUARE, (error, response) => {
+    	if (!error) {
+     		this.setState({dataFoursquare: response});
+     	}
+   	});
+	}
 	_onHover({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
   }

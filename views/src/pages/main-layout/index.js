@@ -25,7 +25,7 @@ const styles = {
 class MainLayout extends Component {
   constructor(props) {
     super(props);
-
+		
     this.state = {
       docked: false,
       open: false,
@@ -36,7 +36,7 @@ class MainLayout extends Component {
       touchHandleWidth: 20,
       dragToggleDistance: 30,
     };
-
+		
     this.onSetOpen = this.onSetOpen.bind(this);
     this.menuButtonClick = this.menuButtonClick.bind(this);
   }
@@ -88,7 +88,6 @@ class MainLayout extends Component {
           			<Route path="/layer" component={Home} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
-								<Redirect to="/" />
         		</Switch>
       		</main>
           </div>
