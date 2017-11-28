@@ -86,7 +86,7 @@ export default class GeoJsonLayerDeckGLOverlay extends Component {
       filled: true,
       extruded: true,
 	  	getRadius: f => f.properties.radius ||  10, 
-	  	pickable: Boolean(true),
+	  	pickable: true,
 	  	getFillColor: f => colorScale(25),
       getLineColor: f => [255, 140, 200],
  	  	onHover: this._onHover.bind(this),

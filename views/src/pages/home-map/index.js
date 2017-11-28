@@ -24,13 +24,8 @@ class Home extends Component {
         height: 500,
       },
     };	
-	/*
-	fetch('/test')
-      .then(res => res.json())
-      .then(json => {this.setState({data: json});});
-
-	*/
   }
+
 	componentDidMount() {
     window.addEventListener('resize', this._resize.bind(this));
     this._resize();
