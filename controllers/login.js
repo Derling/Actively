@@ -23,4 +23,3 @@ router.post('/', passport.authenticate('local',  {
 
 module.exports = router;
 
-//res.json({msg: "Successfully logged in"})
