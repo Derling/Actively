@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Home from '../home-map/index.js';
 import NodeTest from '../users/index.js'
 import Login from '../users/login.js';
+import Signup from '../users/signup.js';
 /* Sidebar */
 import Sidebar from 'react-sidebar';
 import MaterialTitlePanel from './material_title_panel';
@@ -88,6 +89,7 @@ class MainLayout extends Component {
           			<Route path="/layer" component={Home} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
+                <Route path="/signup" exact component={SignUp} />
 								<Redirect to="/" />
         		</Switch>
       		</main>
