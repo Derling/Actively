@@ -16,7 +16,7 @@ router.post('/', passport.authenticate('local',  {
            failureRedirect: '/login',
             }), 
 		   (req,res)=>{
-	res.json({msg: 'Username is ' + req.user.username});
+	res.json({username: req.user.username});
 })
 
 
