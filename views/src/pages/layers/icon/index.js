@@ -57,11 +57,19 @@ export default class IconDeckGLOverlay extends Component {
 		const DATA_FOURSQUARE = '/apis/foursquare/explore?'+coordinates
 			+'&client_id='+process.env.REACT_APP_FourSquareClientId
 			+'&client_secret='+process.env.REACT_APP_FourSquareClientSec; 
+    let myInit = { method: 'GET'};
+    var myRequest = new Request(DATA_FOURSQUARE, myInit);
+    fetch(myRequest).then( (response) => {
+        return response.json();
+    }).then( (data)=> {
+    	this.setState({dataFoursquare: data});
+    });
+    /*
    	requestJson(DATA_FOURSQUARE, (error, response) => {
     	if (!error) {
-     		this.setState({dataFoursquare: response});
      	}
    	});
+    */
 	}
 	_onHover({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
