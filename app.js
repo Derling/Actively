@@ -8,7 +8,8 @@ const models = require('./models/');
 const test = require('./routes/express-test.js');
 const meetup = require('./routes/meetup');
 const passport = require('./middlewares/authentication');
-const viewHelpers = require('./middlewares/viewHelpers')
+const viewHelpers = require('./middlewares/viewHelpers');
+const eventbrite = require('./routes/eventbrite');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(viewHelpers.register());
 
 app.use('/test', test);
 app.use('/apis/meetup', meetup);
+app.use('/apis/eventbrite', eventbrite);
 
 app.use(require('./controllers/'));
 

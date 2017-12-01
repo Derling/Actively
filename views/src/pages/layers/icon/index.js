@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import DeckGL, {IconLayer} from 'deck.gl';
 import {json as requestJson} from 'd3-request';
 import ICON from './data/media.png';
-const DATA_URL = '/apis/meetup?lon=-73.935242&lat=40.73061';  // eslint-disable-line
+const MEETUP_URL = '/apis/meetup?lon=-73.935242&lat=40.73061';  // eslint-disable-line
+const EVENTBRITE_URL = '/apis/eventbrite?lon=-73.935242&lat=40.73061';
 const ICON_SIZE = 5;
 
 /* Required Field lets DeckGl map the ICON*/
@@ -35,10 +36,14 @@ export default class IconDeckGLOverlay extends Component {
  			data: null,
 	  	hoveredObject: null,
     };
-		requestJson(DATA_URL, (error, response) => {
+		requestJson(MEETUP_URL, (error, response) => {
       if (!error) {
         this.setState({data: response});
       }
+    });
+    requestJson(EVENTBRITE_URL, (error, response) => {
+        // testing purposes, retrieves eventbrite events and logs them, need to add them to map layer.
+        console.log(response)
     });
   }
 
@@ -48,6 +53,7 @@ export default class IconDeckGLOverlay extends Component {
 
   renderHoveredItems() {
     const {x, y, hoveredObject} = this.state;
+    console.log(this.state)
     if (!hoveredObject) {
       return null;
     }
