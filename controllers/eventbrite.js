@@ -27,8 +27,7 @@ module.exports = (req, res) => {
             coordinates: [events[event]["venue"]["longitude"], 
                   events[event]["venue"]["latitude"]] // array containg lat and lon 
           });
-      }
-        //console.log(event, events[event]["venue"]["latitude"])
+        }
       }
       res.json(resp);
    })
