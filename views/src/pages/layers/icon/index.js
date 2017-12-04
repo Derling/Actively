@@ -3,6 +3,7 @@ import DeckGL, {IconLayer} from 'deck.gl';
 import {json as requestJson} from 'd3-request';
 import MEETUP_ICON from './data/media.png';
 import FOURSQUARE_ICON from './data/logo-foursquare.png'
+import ROBBERIES_ICON from './data/R-Icon.png';
 const ICON_SIZE = 5;
 
 const MEETUP_MAPPING = {
@@ -11,6 +12,10 @@ const MEETUP_MAPPING = {
 
 const FOURSQUARE_MAPPING = {
   marker: {x: 0, y: 0, width: 1020, height: 1020, mask: false}
+};
+
+const ROBBERIES_MAPPING= {
+  marker: {x: 30, y: 30, width: 120, height: 120, mask: false}
 };
 
 
@@ -37,6 +42,7 @@ export default class IconDeckGLOverlay extends Component {
       expanded: false,
  			dataMeetup: null,
       dataFoursquare: null,
+      dataRobberies: null,
 	  	hoveredObject: null,
     };
 		/* TODO Higher Level Component does not update 
@@ -63,7 +69,19 @@ export default class IconDeckGLOverlay extends Component {
         return response.json();
     }).then( (data)=> {
     	this.setState({dataFoursquare: data});
+      console.log(data);
     });
+    requestJson('/apis/nycCrime/robberies', (error,res) => {
+    	if (!error) {
+          res.forEach( (obj) => {
+              let temp=obj['Value'].split(',');
+              obj.coordinates = [temp[1],temp[0]]
+          });
+          console.log(res);
+          this.setState({dataRobberies: res});
+      }
+    }); 
+
     /*
    	requestJson(DATA_FOURSQUARE, (error, response) => {
     	if (!error) {
@@ -74,8 +92,7 @@ export default class IconDeckGLOverlay extends Component {
 	_onHover({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
   }
-/*
-																																					*/
+
   renderHoveredItems() {
     const {x, y, hoveredObject} = this.state;
     if (!hoveredObject ) {
@@ -120,7 +137,7 @@ export default class IconDeckGLOverlay extends Component {
 
   render() {
     const {viewport} = this.props;
-		const {dataMeetup, dataFoursquare} = this.state;
+		const {dataMeetup, dataFoursquare, dataRobberies} = this.state;
     if (!dataMeetup) {
       return null;
     }
@@ -150,10 +167,24 @@ export default class IconDeckGLOverlay extends Component {
  	  	onHover: this._onHover.bind(this),
       onClick: this._onClick.bind(this),
     });
+    const nycRobberies= new IconLayer({
+      id: 'nycRobberies',
+      data: dataRobberies,
+      pickable: true,
+      iconAtlas: ROBBERIES_ICON,
+      iconMapping: ROBBERIES_MAPPING,
+      sizeScale: ICON_SIZE * window.devicePixelRatio,
+      getPosition: d => d.coordinates,
+      getIcon: d => 'marker',
+      getSize: d => 20,
+ 	  	onHover: this._onHover.bind(this),
+      onClick: this._onClick.bind(this),
+    });
+
     return (
 			<div>
 		  	{this.renderHoveredItems()}
-				<DeckGL {...viewport} layers={ [meetup,foursquare] } />;
+				<DeckGL {...viewport} layers={ [meetup,foursquare,nycRobberies] } />;
 			</div>
 		);
   }
