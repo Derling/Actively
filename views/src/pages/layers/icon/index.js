@@ -3,7 +3,7 @@ import DeckGL, {IconLayer} from 'deck.gl';
 import {json as requestJson} from 'd3-request';
 import MEETUP_ICON from './data/media.png';
 import FOURSQUARE_ICON from './data/logo-foursquare.png'
-import ROBBERIES_ICON from './data/R-Icon.png';
+import ROBBERIES_ICON from './data/crime-icon.png';
 const ICON_SIZE = 5;
 
 const MEETUP_MAPPING = {
@@ -15,7 +15,7 @@ const FOURSQUARE_MAPPING = {
 };
 
 const ROBBERIES_MAPPING= {
-  marker: {x: 30, y: 30, width: 120, height: 120, mask: false}
+  marker: {x: 30, y: 30, width: 520, height: 520, mask: false}
 };
 
 
@@ -69,13 +69,14 @@ export default class IconDeckGLOverlay extends Component {
         return response.json();
     }).then( (data)=> {
     	this.setState({dataFoursquare: data});
-      console.log(data);
     });
     requestJson('/apis/nycCrime/robberies', (error,res) => {
     	if (!error) {
+          let i=0;
           res.forEach( (obj) => {
               let temp=obj['Value'].split(',');
               obj.coordinates = [temp[1],temp[0]]
+              obj.crime_robberies_id = i++;
           });
           console.log(res);
           this.setState({dataRobberies: res});
@@ -101,7 +102,7 @@ export default class IconDeckGLOverlay extends Component {
 		/* TODO Very lazy plz modularize into functions */
 		const items=[hoveredObject];
 		const wrapWord = {wordWrap: 'break-word'};
-		if(!hoveredObject.event_id) {
+		if(hoveredObject.foursquare_id) {
 			return (
         <div style={{...tooltipStyle, left: x, top: y}}>
         <div>Foursquare information</div>
@@ -116,19 +117,38 @@ export default class IconDeckGLOverlay extends Component {
 			);
 			}
       /* TODO change item.description to dangerous HTML and smaller render */ 
+      if(hoveredObject.event_id) {
       return ( 
           <div style={{...tooltipStyle, left: x, top: y}}> 
             <div>Meetup information</div> 
 						<div></div> 
 						{items.map(item => <div style={wrapWord} key={item.event_id}>
 						<div>{item.event_name}</div>
-						<div style={wrapWord}>{item.description}</div>
+						<div style={wrapWord}>
+             <div dangerouslySetInnerHTML={this.createMarkup(item.description)} />
+            </div>
 						<div>{item.url}</div>
-					</div>
-        )}
+					  </div>
+            )}
       	</div>
        ); 
+      }
+
+      if(hoveredObject.crime_robberies_id) {
+          return (
+          <div style={{...tooltipStyle, left: x, top: y}}> 
+            <div>Crime Info</div> 
+						{items.map(item => <div style={wrapWord} key={item.crime_robberies_id}>
+             <div dangerouslySetInnerHTML={this.createMarkup(item.Title)} />
+            </div>
+            )}
+					</div>
+          );
+      }
     }
+
+ createMarkup(item) { return {__html: item}; };
+
 
   /* TODO add more functionally other than logging*/
   _onClick({x,y,object}) {
