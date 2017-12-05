@@ -9,8 +9,8 @@ const test = require('./routes/express-test.js');
 const meetup = require('./routes/meetup');
 //const foursquare = require('./routes/foursquare.js');
 const passport = require('./middlewares/authentication');
-const viewHelpers = require('./middlewares/viewHelpers')
-
+const viewHelpers = require('./middlewares/viewHelpers');
+const login = require('./controllers/login');
 
 const flash = require('connect-flash');
 
@@ -39,7 +39,7 @@ app.use('/test', test);
 app.use('/apis/meetup', meetup);
 
 app.use(require('./controllers/'));
-
+app.use(require('./controllers/',login));
 // Cache and disable 304 status code
 app.disable('etag');
 

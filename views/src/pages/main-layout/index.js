@@ -89,7 +89,7 @@ class MainLayout extends Component {
           			<Route path="/layer" component={Home} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
-                <Route path="/signup" exact component={SignUp} />
+                
 								<Redirect to="/" />
         		</Switch>
       		</main>
