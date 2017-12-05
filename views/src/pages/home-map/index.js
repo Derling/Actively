@@ -84,15 +84,6 @@ class Home extends Component {
   }
 
   render() {
-    /*
-    const user_location = new IconLayer({
-        id: 'icon-layer',
-        data: [this.state.USER_LOC],
-        iconAtlas: User_Icon,
-        iconMapping: USER_MAPPING,
-        getSize: d => 200,
-    });
-    */
     const {viewport} = this.state;
     return (
 	    <div>

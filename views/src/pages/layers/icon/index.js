@@ -4,6 +4,8 @@ import {json as requestJson} from 'd3-request';
 import MEETUP_ICON from './data/media.png';
 import FOURSQUARE_ICON from './data/logo-foursquare.png'
 import ROBBERIES_ICON from './data/crime-icon.png';
+import renderHoveredItems from './renderHoveredItems.js';
+
 const ICON_SIZE = 5;
 
 const MEETUP_MAPPING = {
@@ -16,20 +18,6 @@ const FOURSQUARE_MAPPING = {
 
 const ROBBERIES_MAPPING= {
   marker: {x: 30, y: 30, width: 520, height: 520, mask: false}
-};
-
-
-/* On Hover Inline Style */
-const tooltipStyle = {
-  position: 'absolute',
-  padding: '10px',
-  background: 'rgba(0, 0, 0, 0.8)',
-  color: '#fff',
-  maxWidth: '300px',
-  fontSize: '15px',
-  zIndex: 9,
-  pointerEvents: 'none',
-	wordWrap: 'break-word',
 };
 
 export default class IconDeckGLOverlay extends Component {
@@ -82,7 +70,6 @@ export default class IconDeckGLOverlay extends Component {
           this.setState({dataRobberies: res});
       }
     }); 
-
     /*
    	requestJson(DATA_FOURSQUARE, (error, response) => {
     	if (!error) {
@@ -93,63 +80,6 @@ export default class IconDeckGLOverlay extends Component {
 	_onHover({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
   }
-
-  renderHoveredItems() {
-    const {x, y, hoveredObject} = this.state;
-    if (!hoveredObject ) {
-      return null;
-    }
-		/* TODO Very lazy plz modularize into functions */
-		const items=[hoveredObject];
-		const wrapWord = {wordWrap: 'break-word'};
-		if(hoveredObject.foursquare_id) {
-			return (
-        <div style={{...tooltipStyle, left: x, top: y}}>
-        <div>Foursquare information</div>
-						{items.map(item => 
-							<div key={item.foursquare_id}>
-							<div>{item.name}</div>
-							<div>{item.venue}</div>
-							<div style={wrapWord}>{item.tips}</div>
-							</div>
-					)};
-				</div>
-			);
-			}
-      /* TODO change item.description to dangerous HTML and smaller render */ 
-      if(hoveredObject.event_id) {
-      return ( 
-          <div style={{...tooltipStyle, left: x, top: y}}> 
-            <div>Meetup information</div> 
-						<div></div> 
-						{items.map(item => <div style={wrapWord} key={item.event_id}>
-						<div>{item.event_name}</div>
-						<div style={wrapWord}>
-             <div dangerouslySetInnerHTML={this.createMarkup(item.description)} />
-            </div>
-						<div>{item.url}</div>
-					  </div>
-            )}
-      	</div>
-       ); 
-      }
-
-      if(hoveredObject.crime_robberies_id) {
-          return (
-          <div style={{...tooltipStyle, left: x, top: y}}> 
-            <div>Crime Info</div> 
-						{items.map(item => <div style={wrapWord} key={item.crime_robberies_id}>
-             <div dangerouslySetInnerHTML={this.createMarkup(item.Title)} />
-            </div>
-            )}
-					</div>
-          );
-      }
-    }
-
- createMarkup(item) { return {__html: item}; };
-
-
   /* TODO add more functionally other than logging*/
   _onClick({x,y,object}) {
     console.log("Clicked icon:",object);
@@ -203,7 +133,7 @@ export default class IconDeckGLOverlay extends Component {
 
     return (
 			<div>
-		  	{this.renderHoveredItems()}
+		  	{renderHoveredItems(this.state)}
 				<DeckGL {...viewport} layers={ [meetup,foursquare,nycRobberies] } />;
 			</div>
 		);
