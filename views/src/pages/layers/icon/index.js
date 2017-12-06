@@ -1,14 +1,30 @@
 import React, {Component} from 'react';
 import DeckGL, {IconLayer} from 'deck.gl';
 import {json as requestJson} from 'd3-request';
-import ICON from './data/media.png';
-const DATA_URL = '/apis/meetup?lon=-73.935242&lat=40.73061';  // eslint-disable-line
+import MEETUP_ICON from './data/media.png';
+import FOURSQUARE_ICON from './data/logo-foursquare.png'
+import ROBBERIES_ICON from './data/crime-icon.png';
+import EVENTBRITE_ICON from './data/event-brite.png';
+import renderHoveredItems from './renderHoveredItems.js';
+
 const ICON_SIZE = 5;
 
-/* Required Field lets DeckGl map the ICON*/
-const ICON_MAPPING = {
+const MEETUP_MAPPING = {
   marker: {x: 0, y: 0, width: 520, height: 520, mask: false}
 };
+
+const ROBBERIES_MAPPING= {
+  marker: {x: 30, y: 30, width: 520, height: 520, mask: false}
+};
+
+const FOURSQUARE_MAPPING = {
+  marker: {x: 0, y: 0, width: 1020, height: 1020, mask: false}
+};
+
+const EVENTBRITE_MAPPING = {
+  marker: {x: 0, y: 0, width: 520, height: 520, mask: false}
+};
+
 
 /* On Hover Inline Style */
 const tooltipStyle = {
@@ -26,48 +42,79 @@ const tooltipStyle = {
 export default class IconDeckGLOverlay extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
+		this.state = {
       x: 0,
       y: 0,
       hoveredItems: null,
       expanded: false,
- 			data: null,
+ 			dataMeetup: null,
+      dataFoursquare: null,
+      dataRobberies: null,
+      dataEventBrite: null,
 	  	hoveredObject: null,
     };
-		requestJson(DATA_URL, (error, response) => {
-      if (!error) {
-        this.setState({data: response});
-      }
+		/* TODO Higher Level Component does not update 
+		 * the props passed to get json data 
+		 * aka navigator.geolocation.watchPosition call back finishes but json already rendered
+		*/
+
+		const {viewport}= this.props;
+		let lon = viewport.longitude;
+		let lat = viewport.latitude;
+		let coordinates = 'lon='+lon+'&lat='+lat;
+
+		const DATA_MEETUP = '/apis/meetup?'+coordinates;
+		requestJson(DATA_MEETUP, (error, response) => {
+    if (!error) {
+    	this.setState({dataMeetup:response});
+     }
+   	});
+
+		const DATA_FOURSQUARE = '/apis/foursquare/explore?'+coordinates
+			+'&client_id='+process.env.REACT_APP_FourSquareClientId
+			+'&client_secret='+process.env.REACT_APP_FourSquareClientSec; 
+
+    let myInit = { method: 'GET'};
+      '/apis/login'
+    var myRequest = new Request(DATA_FOURSQUARE, myInit);
+    fetch(myRequest).then( (response) => {
+        return response.json();
+    }).then( (data)=> {
+    	this.setState({dataFoursquare: data});
     });
-  }
+
+    requestJson('/apis/nycCrime/robberies', (error,res) => {
+    	if (!error) {
+          let i=0;
+          res.forEach( (obj) => {
+              let temp=obj['Value'].split(',');
+              obj.coordinates = [temp[1],temp[0]]
+              obj.crime_robberies_id = i++;
+          });
+          //console.log(res);
+          this.setState({dataRobberies: res});
+      }
+    }); 
+
+    const EVENTBRITE_URL = '/apis/eventbrite?lon=-73.935242&lat=40.73061';
+    requestJson(EVENTBRITE_URL, (error, response) => {
+        console.log(response);
+        if(!error) {
+          this.setState({dataEventBrite: response});
+        }
+      });
+    /*
+   	requestJson(DATA_FOURSQUARE, (error, response) => {
+    	if (!error) {
+     	}
+   	});
+    */
+	}
 
 	_onHover({x,y,object}) {
     this.setState({x, y, hoveredObject: object});
   }
 
-  renderHoveredItems() {
-    const {x, y, hoveredObject} = this.state;
-    if (!hoveredObject) {
-      return null;
-    }
-		const items=[hoveredObject];
-		const wrapWord = {wordWrap: 'break-word'}
-    /* TODO change item.description to dangerous HTML and smaller render */
-		return (
-				<div style={{...tooltipStyle, left: x, top: y}}>
-        <div>Meetup information</div>
-        <div></div>
-				{items.map(item =>
-          <div style={wrapWord} key={item.event_id}>
-						<div>{item.event_name}</div>
-						<div style={wrapWord}>{item.description}</div>
-						<div>{item.url}</div>
-					</div>
-        )}
-      	</div>
-       ); 
-    }
   /* TODO add more functionally other than logging*/
   _onClick({x,y,object}) {
     console.log("Clicked icon:",object);
@@ -75,16 +122,55 @@ export default class IconDeckGLOverlay extends Component {
 
   render() {
     const {viewport} = this.props;
-		const {data} = this.state;
-    if (!data) {
+		const {dataMeetup, dataFoursquare, dataRobberies, dataEventBrite} = this.state;
+    if (!dataMeetup) {
       return null;
     }
-    const layer = new IconLayer({
-      id: 'icon',
-      data,
+    const meetup = new IconLayer({
+      id: 'meetup',
+      data: dataMeetup,
       pickable: true,
-      iconAtlas: ICON,
-      iconMapping: ICON_MAPPING,
+      iconAtlas: MEETUP_ICON,
+      iconMapping: MEETUP_MAPPING,
+      sizeScale: ICON_SIZE * window.devicePixelRatio,
+      getPosition: d => d.coordinates,
+      getIcon: d => 'marker',
+      getSize: d => 20,
+ 	  	onHover: this._onHover.bind(this),
+      onClick: this._onClick.bind(this),
+    });
+    const foursquare = new IconLayer({
+      id: 'foursquare',
+      data: dataFoursquare,
+      pickable: true,
+      iconAtlas: FOURSQUARE_ICON,
+      iconMapping: FOURSQUARE_MAPPING,
+      sizeScale: ICON_SIZE * window.devicePixelRatio,
+      getPosition: d => d.coordinates,
+      getIcon: d => 'marker',
+      getSize: d => 20,
+ 	  	onHover: this._onHover.bind(this),
+      onClick: this._onClick.bind(this),
+    });
+    const nycRobberies= new IconLayer({
+      id: 'nycRobberies',
+      data: dataRobberies,
+      pickable: true,
+      iconAtlas: ROBBERIES_ICON,
+      iconMapping: ROBBERIES_MAPPING,
+      sizeScale: ICON_SIZE * window.devicePixelRatio,
+      getPosition: d => d.coordinates,
+      getIcon: d => 'marker',
+      getSize: d => 20,
+ 	  	onHover: this._onHover.bind(this),
+      onClick: this._onClick.bind(this),
+    });
+    const eventBrite = new IconLayer({
+      id: 'eventBrite',
+      data: dataEventBrite,
+      pickable: true,
+      iconAtlas: EVENTBRITE_ICON,
+      iconMapping: EVENTBRITE_MAPPING,
       sizeScale: ICON_SIZE * window.devicePixelRatio,
       getPosition: d => d.coordinates,
       getIcon: d => 'marker',
@@ -93,10 +179,11 @@ export default class IconDeckGLOverlay extends Component {
       onClick: this._onClick.bind(this),
     });
 
+
     return (
 			<div>
-		  	{this.renderHoveredItems()}
-				<DeckGL {...viewport} layers={ [layer] } />;
+        {renderHoveredItems(this.state)}
+				<DeckGL {...viewport} layers={ [meetup,foursquare,nycRobberies,eventBrite] } />;
 			</div>
 		);
   }
