@@ -22,7 +22,8 @@ class Login extends Component {
   handleSubmit(event) {   
 
     alert('A name was submitted: ' + this.state.email+ this.state.password);                                                                                        
-     fetch('/login',{                                                                                                                         
+			/* Defined /apis/login in express server */
+     fetch('/apis/login',{                                                                                                                         
           method: "POST",                                                                                                                      
           body: JSON.stringify({
             'email'   : this.state.email,
