@@ -4,8 +4,14 @@ class SignUp extends Component {
 
  constructor(props) {                                                                                                                          
     super(props);                                                                                                                  
-                                                                                                                                               
-    this.handleChange = this.handleChange.bind(this);                                                                                          
+		
+		/* TODO Fill all value feilds in state first */
+		this.state = {
+			username : '',
+		}
+    
+		/* TODO Bind all function names */
+    this.handleUsername = this.handleUsername.bind(this);                                                                                          
     this.handleSubmit = this.handleSubmit.bind(this);                                                                                          
   }                                                                                                                                            
                                                                                                                                                
