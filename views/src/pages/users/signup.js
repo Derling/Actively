@@ -1,38 +1,36 @@
 import React, { Component } from 'react';
 
-class SignUp extends Component {
+class Signup extends Component {
 
  constructor(props) {                                                                                                                          
-    super(props);                                                                                                                  
-		
-		/* TODO Fill all value feilds in state first */
-		this.state = {
-			username : '',
-		}
-    
-		/* TODO Bind all function names */
-    this.handleUsername = this.handleUsername.bind(this);                                                                                          
+    super(props);      
+    this.state = {username:'',email: '', password: '', firstName: '' , lastName: ''}                                                                                                            
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
+    this.handleFirstName = this.handleFirstName.bind(this);                                                                                                                                       
+    this.handleLastName = this.handleLastName.bind(this);          
+    this.handleUsername = this.handleUsername.bind(this);                                                                                
     this.handleSubmit = this.handleSubmit.bind(this);                                                                                          
   }                                                                                                                                            
                                                                                                                                                
-  handleUsername(event) {                                                                                                                        
-   this.setState({username: event.target.username});                                                                                                 
+  handleUsername(event,value) {                                                                                                                        
+   this.setState({username: event.target.value});                                                                                                 
   }   
-  handlePassword(event) {                                                                                                                        
-   this.setState({password: event.target.password});                                                                                                 
+  handlePassword(event,value) {                                                                                                                        
+   this.setState({password: event.target.value});                                                                                                 
   }  
-  handleEmail(event) {                                                                                                                        
-   this.setState({email: event.target.email});                                                                                                 
+  handleEmail(event,value) {                                                                                                                        
+   this.setState({email: event.target.value});                                                                                                 
   }  
-  handleFirstName(event) {                                                                                                                        
-   this.setState({value: event.target.firstName});                                                                                                 
+  handleFirstName(event,value) {                                                                                                                        
+   this.setState({firstName: event.target.value});                                                                                                 
   }  
-  handleLastName(event) {                                                                                                                        
-   this.setState({value: event.target.lastName});                                                                                                 
+  handleLastName(event,value) {                                                                                                                        
+   this.setState({lastName: event.target.value});                                                                                                 
   }                                                                                                                                           
                                                                                                                                                
   handleSubmit(event) {                                                                                                                        
-    alert('A name was submitted: ' + this.state.value);                                                                                        
+    alert('A name was submitted: ' + this.state.email );                                                                                        
      fetch("/signup",{                                                                                                                         
           method: "POST",                                                                                                                      
           body: JSON.stringify({
@@ -47,7 +45,10 @@ class SignUp extends Component {
           },                                                                                                                                   
         })                                                                                                                                     
       .then( (res) => { return res.json(); })                                                                                                  
-      .then( (data) => { alert( JSON.stringify( data ) ) })                                                                                    
+      .then( (data) => { alert( JSON.stringify( data ) ) })        
+      .catch(()=>{
+        alert('error on signup.js')
+      })                                                                            
   }                                                                                                                                            
                                                                                                                                                
   render() {                                                                                                                                   
@@ -67,11 +68,11 @@ class SignUp extends Component {
         </label> 
         <label>                                                                                                                                
           Firstname:                                                                                                                                
-          <input type="text" value={this.state.value} onChange={this.handleFirstName} />                                                          
+          <input type="text" value={this.state.firstName} onChange={this.handleFirstName} />                                                          
         </label> 
         <label>                                                                                                                                
           LastName:                                                                                                                                
-          <input type="text" value={this.state.value} onChange={this.handleLastName} />                                                          
+          <input type="text" value={this.state.lastName} onChange={this.handleLastName} />                                                          
         </label> 
 
         <input type="submit" value="Submit" />                                                                                                 
