@@ -31,7 +31,7 @@ class Signup extends Component {
                                                                                                                                                
   handleSubmit(event) {                                                                                                                        
     alert('A name was submitted: ' + this.state.email );                                                                                        
-     fetch("/signup",{                                                                                                                         
+     fetch('/apis/signup',{                                                                                                                         
           method: "POST",                                                                                                                      
           body: JSON.stringify({
             'firstName':this.state.firstName,
@@ -44,7 +44,7 @@ class Signup extends Component {
               'Content-Type': 'application/json'                                                                                               
           },                                                                                                                                   
         })                                                                                                                                     
-      .then( (res) => { return res.json(); })                                                                                                  
+      .then( (res) => { res.json(); })                                                                                                  
       .then( (data) => { alert( JSON.stringify( data ) ) })        
       .catch(()=>{
         alert('error on signup.js')

@@ -34,7 +34,7 @@ class Login extends Component {
               'Content-Type': 'application/json'                                                                                               
           },                                                                                                                                   
         })                                                                                                                                     
-      .then( (res) => { return res.json(); })                                                                                                  
+      .then( (res) => { res.json(); })                                                                                                  
       .then( (data) => { alert( JSON.stringify( data ) ) }) 
       
 
