@@ -5,13 +5,15 @@ const models = require('../models');
 const router = express.Router();
 
 
-/*
 router.get('/',(req,res) => {
   			res.json({
     			msg: "This is login page"
   			})
 		});
-*/
+
+
+
+/* TODO Catch error so server doesn't crash on login failure */
 router.post('/', passport.authenticate('local',  { 
            failureRedirect: '/login',
            successRedirect: '/meetup',
@@ -19,8 +21,6 @@ router.post('/', passport.authenticate('local',  {
 		   (req,res)=>{
 	res.json({username: req.user.username});
 })
-
-
 
 module.exports = router;
 
