@@ -38,7 +38,7 @@ app.use(require('./controllers/'));
 app.use('/test', test);
 
 app.use('/apis/meetup', meetup);
-app.use('/apis/login',require('./controllers/login'));
+app.use('/apis/',require('./controllers/'));
 
 // Cache and disable 304 status code
 app.disable('etag');

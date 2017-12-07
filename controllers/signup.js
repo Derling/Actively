@@ -13,6 +13,7 @@ router.post('/',(req,res) => {
   }
 	models.user.create(userdata)
   .then((user)=>{
+    console.log('Successful to signup');
     res.json({msg: "Successful to signup"})
     
   })
