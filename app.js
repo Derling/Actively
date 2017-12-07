@@ -10,13 +10,8 @@ const meetup = require('./routes/meetup');
 //const foursquare = require('./routes/foursquare.js');
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers');
-const login = require('./controllers/login');
 const flash = require('connect-flash');
-
-
 const app = express();
-
-
 
 // uncomment after placing your favicon in /public
 
@@ -36,8 +31,8 @@ app.use(flash());
 
 app.use('/test', test);
 app.use('/apis/meetup', meetup);
-app.use('/apis/login', login);
-//app.use(require('./controllers/'));
+/* Pass all route all controlers to /apis/ */
+app.use('/apis/',require('./controllers/'));
 
 // Cache and disable 304 status code
 app.disable('etag');

@@ -1,4 +1,4 @@
-const models = require('../models');
+const models = require('../models/');
 const express = require('express');
 const router = express.Router();
 
@@ -16,8 +16,11 @@ router.post('/',(req,res) => {
       email: req.body.email,
       password: req.body.password
   }
-	models.user.create(userdata)
+	console.log("Recieved",userdata);
+	/* TODO Find error in creating user */
+	models.User.create(userdata)
   .then((user)=>{
+		console.log("Created",user);
     res.json({msg: "Successful to signup"})
   })
   .catch(()=>{
