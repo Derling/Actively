@@ -2,15 +2,20 @@
 import React, {Component} from 'react';
 import {Route, Switch ,Redirect} from 'react-router';
 import 'bootstrap/dist/css/bootstrap.css';
+
 /* Main Components */
 import Home from '../home-map/index.js';
 import NodeTest from '../users/index.js'
-import Login from '../users/login.js';
+
 /* Sidebar */
 import Sidebar from 'react-sidebar';
 import MaterialTitlePanel from './material_title_panel';
 import SidebarContent from './sidebar_content';
 import { NavLink} from 'react-router-dom'
+
+/* User */
+import Signup from '../users/signup.js';
+import Login from '../users/login.js';
 
 const styles = {
   contentHeaderMenuLink: {
@@ -88,6 +93,8 @@ class MainLayout extends Component {
           			<Route path="/layer" component={Home} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
+          			<Route path="/signup" exact component={Signup} />
+								<Redirect to="/layer" />
         		</Switch>
       		</main>
           </div>

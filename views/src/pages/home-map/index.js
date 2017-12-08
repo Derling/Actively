@@ -7,6 +7,7 @@ import {Route} from 'react-router';
 import User_Icon from './user_on_map_2_small.png';
 import {Marker} from 'react-map-gl';
 import Pin from './pin.js';
+import Signup from '../users/signup.js';
 
 /*
 import DeckGL, {IconLayer} from 'deck.gl';
@@ -99,6 +100,7 @@ class Home extends Component {
             <DeckGLOverlay viewport={viewport} /> }/>
 					<Route path={`${this.props.match.url}/icons`} render={ ()  => 
             <IconDeckGLOverlay viewport={viewport} /> }/>
+				<Signup />
        </MapGL>
     </div>
     );
