@@ -10,21 +10,17 @@ const meetup = require('./routes/meetup');
 //const foursquare = require('./routes/foursquare.js');
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers');
-<<<<<<< HEAD
-const login = require('./controllers/login.js');
-const flash = require('connect-flash');
-const signup = require('./controllers/signup.js')
-
+const login = require('./controllers/login');
 const app = express();
 
 
 
 
-=======
-const flash = require('connect-flash');
-const app = express();
 
->>>>>>> 1eb8fdec4db464c42a060dde5dbe5477623187e6
+const flash = require('connect-flash');
+
+
+
 // uncomment after placing your favicon in /public
 
 app.use(logger('dev'));
@@ -44,12 +40,11 @@ app.use(require('./controllers/'));
 app.use('/test', test);
 
 app.use('/apis/meetup', meetup);
-<<<<<<< HEAD
-=======
-/* Pass all route all controlers to /apis/ */
->>>>>>> 1eb8fdec4db464c42a060dde5dbe5477623187e6
-app.use('/apis/',require('./controllers/'));
 
+/* Pass all route all controlers to /apis/ */
+
+app.use('/apis/login',login);
+app.use('/apis/signup',require('./controllers/signup'));
 // Cache and disable 304 status code
 app.disable('etag');
 

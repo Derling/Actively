@@ -3,6 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 
+router.get('/',(req,res) => {
+        res.json({
+          msg: "This is signup page"
+        })
+    });
+
 router.post('/',(req,res) => {
   const userdata = {
       firstName: req.body.firstName,
@@ -13,9 +19,9 @@ router.post('/',(req,res) => {
   }
 	console.log("Recieved",userdata);
 	/* TODO Find error in creating user */
-	models.User.create(userdata)
+	models.user.create(userdata)
   .then((user)=>{
-		console.log("Created",user);
+		//console.log("Created",user);
     res.json({msg: "Successful to signup"})
     
   })

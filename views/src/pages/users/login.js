@@ -23,6 +23,7 @@ class Login extends Component {
 
     alert('A name was submitted: ' + this.state.email+ this.state.password);                                                                                        
 			/* Defined /apis/login in express server */
+    event.preventDefault();
      fetch('/apis/login',{                                                                                                                         
           method: "POST",                                                                                                                      
           body: JSON.stringify({
@@ -33,9 +34,9 @@ class Login extends Component {
                'Accept': 'application/json',                                                                                                                         
               'Content-Type': 'application/json'                                                                                               
           },                                                                                                                                   
-        })                                                                                                                                     
-      .then( (res) => { res.json(); })                                                                                                  
-      .then( (data) => { alert( JSON.stringify( data ) ) }) 
+        })    
+      .then( (res) => {return res.json()})                                                                                                                             
+      .then( (data) => {alert(data)})
       
 
   }
