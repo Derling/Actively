@@ -5,6 +5,10 @@ Found this tutorial on Dave Ceddia's website: https://daveceddia.com/create-reac
 
 # Installation
 ### Make sure you have the views/development.env file with proper API keys.
+### Make database
+```
+createdb -U actively_user actively_development
+```
 ```
 npm install
 cd views

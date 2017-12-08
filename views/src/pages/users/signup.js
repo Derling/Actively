@@ -46,9 +46,7 @@ class Signup extends Component {
         })                                                                                                                                     
       .then( (res) => { return res.json(); })                                                                                                  
       .then( (data) => { alert( JSON.stringify( data ) ) })        
-      .catch(()=>{
-        alert('error on signup.js')
-      })                                                                            
+      .catch(()=>{alert('error on signup.js')})                                                                            
   }                                                                                                                                            
                                                                                                                                                
   render() {                                                                                                                                   

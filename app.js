@@ -4,9 +4,11 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const models = require('./models/');
 const test = require('./routes/express-test.js');
 const meetup = require('./routes/meetup');
+const models = require('./models/');
+const db = require('./models/index.js');
+
 //const foursquare = require('./routes/foursquare.js');
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers');
@@ -25,24 +27,13 @@ app.use(passport.session());
 app.use(viewHelpers.register());
 
 app.use(flash());
-//app.use('/', index);
-
-
-
 app.use('/test', test);
 app.use('/apis/meetup', meetup);
 /* Pass all route all controlers to /apis/ */
 app.use('/apis/',require('./controllers/'));
-
 // Cache and disable 304 status code
 app.disable('etag');
 
+
 module.exports = app;
 
-/*
-models.sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is up and running on port ${PORT}`);
-  });
-});
-*/

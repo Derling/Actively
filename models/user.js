@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt-nodejs');
-
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
     firstName: {
@@ -60,7 +59,5 @@ module.exports = (sequelize, DataTypes) => {
       user.password_hash = hashedPw;
     })
   );
-
-
   return User;
 };

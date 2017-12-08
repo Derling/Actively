@@ -22,22 +22,17 @@ class Login extends Component {
   handleSubmit(event) {   
 
     alert('A name was submitted: ' + this.state.email+ this.state.password);                                                                                        
-			/* Defined /apis/login in express server */
-     fetch('/apis/login',{                                                                                                                         
-          method: "POST",                                                                                                                      
+     fetch('/apis/login',{                                                                                                                               method: "POST",
           body: JSON.stringify({
             'email'   : this.state.email,
             'password': this.state.password,
           }),                                                                                   
-          headers: {  
-               'Accept': 'application/json',                                                                                                                         
+          headers: { 
               'Content-Type': 'application/json'                                                                                               
           },                                                                                                                                   
         })                                                                                                                                     
       .then( (res) => { return res.json(); })                                                                                                  
-      .then( (data) => { alert( JSON.stringify( data ) ) }) 
-      
-
+      .then( (data) => { alert( JSON.stringify( data ) ) })
   }
 
   render() {                                                                                                                                   
