@@ -11,9 +11,6 @@ router.get('/',(req,res) => {
   			})
 		});
 
-
-
-/* TODO Catch error so server doesn't crash on login failure */
 router.post('/', passport.authenticate('local'),
 	(req,res)=>{
 	res.json([{username: req.user.username}]);

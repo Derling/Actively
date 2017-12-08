@@ -7,7 +7,7 @@ router.get('/',(req,res) => {
         res.json({
           msg: "This is signup page"
         })
-    });
+});
 
 router.post('/',(req,res) => {
   const userdata = {
@@ -18,15 +18,15 @@ router.post('/',(req,res) => {
       password: req.body.password
   }
 	console.log("Recieved",userdata);
-	/* TODO Find error in creating user */
+
 	models.user.create(userdata)
-  .then((user)=>{
-		//console.log("Created",user);
-    res.json({msg: "Successful to signup"})
+  .then((user)=> {
+		console.log("Created",user);
+    res.json([{msg: "Welcome " + user.username}])
     
   })
-  .catch(()=>{
-    res.json({msg: "Either email or username is already registered"})
+  .catch(()=> {
+    res.json([{msg: "Either email or username is already registered"}])
   })
         
 });

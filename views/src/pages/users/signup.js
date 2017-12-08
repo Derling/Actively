@@ -4,12 +4,14 @@ class Signup extends Component {
 
  constructor(props) {                                                                                                                          
     super(props);      
-    this.state = {username:'',email: '', password: '', firstName: '' , lastName: ''}                                                                                                            
+    this.state = {username:'',email: '', password: '', firstName: '' , lastName: ''} 
+
     this.handleEmail = this.handleEmail.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.handleFirstName = this.handleFirstName.bind(this);                                                                                                                                       
     this.handleLastName = this.handleLastName.bind(this);          
-    this.handleUsername = this.handleUsername.bind(this);                                                                                
+    this.handleUsername = this.handleUsername.bind(this);   
+
     this.handleSubmit = this.handleSubmit.bind(this);                                                                                          
   }                                                                                                                                            
                                                                                                                                                
@@ -30,7 +32,8 @@ class Signup extends Component {
   }                                                                                                                                           
                                                                                                                                                
   handleSubmit(event) {                                                                                                                        
-    alert('A name was submitted: ' + this.state.email );                                                                                        
+    alert('A name was submitted: ' + this.state.email ); 
+    event.preventDefault();                                                                                       
      fetch("/apis/signup",{                                                                                                                         
           method: "POST",                                                                                                                      
           body: JSON.stringify({
@@ -41,14 +44,13 @@ class Signup extends Component {
             'password':this.state.password,
           }),                                                                                   
           headers: {                                                                                                                           
-              'Content-Type': 'application/json'                                                                                               
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'                                                                                               
           },                                                                                                                                   
         })                                                                                                                                     
       .then( (res) => { return res.json(); })                                                                                                  
       .then( (data) => { alert( JSON.stringify( data ) ) })        
-      .catch(()=>{
-        alert('error on signup.js')
-      })                                                                            
+      .catch((err)=>{ alert('error on signup.js'+ err ) } )                                                                            
   }                                                                                                                                            
                                                                                                                                                
   render() {                                                                                                                                   

@@ -11,14 +11,9 @@ const meetup = require('./routes/meetup');
 const passport = require('./middlewares/authentication');
 const viewHelpers = require('./middlewares/viewHelpers');
 const login = require('./controllers/login');
+const signup = require('./controllers/signup');
 const app = express();
-
-
-
-
-
 const flash = require('connect-flash');
-
 
 
 // uncomment after placing your favicon in /public
@@ -31,20 +26,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(viewHelpers.register());
-
 app.use(flash());
-//app.use('/', index);
 
-
-app.use(require('./controllers/'));
-app.use('/test', test);
-
-app.use('/apis/meetup', meetup);
 
 /* Pass all route all controlers to /apis/ */
 
+app.use('/test', test);
+app.use(require('./controllers/'));
+app.use('/apis/meetup', meetup);
 app.use('/apis/login',login);
-app.use('/apis/signup',require('./controllers/signup'));
+app.use('/apis/signup',signup);
 // Cache and disable 304 status code
 app.disable('etag');
 

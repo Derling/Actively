@@ -5,9 +5,11 @@ class Login extends Component {
   constructor(props) {
     super(props);  
 
-    this.state = {email:'',password:''};                                                                                                                                        
+    this.state = {email:'',password:''}; 
+
     this.handleEmail = this.handleEmail.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);                                                                                          
+    this.handlePassword = this.handlePassword.bind(this);   
+
     this.handleSubmit = this.handleSubmit.bind(this);                                                                                          
   }                                                                                                                                    
                                                                                                                                                
@@ -21,10 +23,9 @@ class Login extends Component {
 
   handleSubmit(event) {   
 
-    alert('A name was submitted: ' + this.state.email+ this.state.password);                                                                                        
-			/* Defined /apis/login in express server */
+    alert('A name was submitted: ' + this.state.email+ this.state.password);                                           
     event.preventDefault();
-     fetch('/apis/login',{                                                                                                                         
+    fetch('/apis/login',{                                                                                                                         
           method: "POST",                                                                                                                      
           body: JSON.stringify({
             'email'   : this.state.email,
@@ -34,9 +35,9 @@ class Login extends Component {
                'Accept': 'application/json',                                                                                                                         
               'Content-Type': 'application/json'                                                                                               
           },                                                                                                                                   
-        })    
-      .then( (res) => {return res.json()})                                                                                                                             
-      .then( (data) => {alert(data)})
+    })    
+    .then( (res) => {return res.json()})                                                                                                                             
+    .then( (data) => { alert( JSON.stringify( data ) ) })
       
 
   }
