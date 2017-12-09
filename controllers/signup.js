@@ -1,11 +1,12 @@
-const models = require('../models');
+const models = require('../models/');
 const express = require('express');
 const router = express.Router();
 
+
 router.get('/',(req,res) => {
-  res.json({
-  	msg: "This is signup page"
-  })
+        res.json({
+          msg: "This is signup page"
+        })
 });
 
 router.post('/',(req,res) => {
@@ -16,12 +17,14 @@ router.post('/',(req,res) => {
       email: req.body.email,
       password: req.body.password
   }
+	console.log("Recieved",userdata);
 	models.user.create(userdata)
-  .then((user)=>{
-    res.json({msg: "Successful to signup"})
+  .then((user)=> {
+		console.log("Created",user);
+    res.json([{msg: "Welcome " + user.username}])
   })
-  .catch(()=>{
-    res.json({msg: "Either email or username is already registered"})
+  .catch(()=> {
+    res.json([{msg: "Either email or username is already registered"}])
   })
         
 });

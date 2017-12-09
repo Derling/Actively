@@ -6,7 +6,8 @@ import IconDeckGLOverlay from '../layers/icon/index.js';
 import {Route} from 'react-router';
 import User_Icon from './user_on_map_2_small.png';
 import {Marker} from 'react-map-gl';
-import Pin from './pin.js';
+
+import Signup from '../users/signup.js';
 
 /*
 import DeckGL, {IconLayer} from 'deck.gl';
@@ -23,45 +24,16 @@ const MAPBOX_TOKEN = process.env.REACT_APP_MapboxAccessToken; // eslint-disable-
 class Home extends Component {
   constructor(props) {
     super(props);
-		this.state = {
-      viewport: {
-        longitude: -74.0060,
-        latitude: 40.7128,
-        zoom: 12.6,
-        minZoom: 5,
-        maxZoom: 15,
-        pitch: 50.5,
-        width: 500,
-        height: 500,
-      },
-        USER_LOC : {
-          position: [-74.006,40.7128],
-          icon: 'marker', 
-          size: 27, 
-        },
-    }
+			this.state={
+				viewport: this.props.viewport
+			}
 	}
-
 
 	componentDidMount() {
     window.addEventListener('resize', this._resize.bind(this));
-		this._getUserCoord();
     this._resize();
 	}
-	_getUserCoord() {
-		/* Thanks Mozilla for having a easy Geolocation object */
-		navigator.geolocation.watchPosition( (position) => {
-			this.setState((prevState) => {
-        prevState.USER_LOC.position[0] = position.coords.longitude;
-				prevState.USER_LOC.position[1] = position.coords.latitude;
-				prevState.viewport.longitude = position.coords.longitude;
-				prevState.viewport.latitude = position.coords.latitude;
-				return prevState;
-			});
-			this.forceUpdate( () => {console.log("Coord updated")});
-		});	
-	}
-	_resize() {
+		_resize() {
   	this._onViewportChange({
       width: window.innerWidth,
       height: window.innerHeight
@@ -73,26 +45,8 @@ class Home extends Component {
     });
   }
 
-  _renderUserLoc = (users_loc) => {
-    return (
-      <Marker 
-        longitude={users_loc.position[0]}
-        latitude={users_loc.position[1]} >
-        <Pin size={users_loc.size} onClick={() => {console.log("clicked user loc")}} />
-      </Marker>
-    );
-  }
-
+//<Signup />
   render() {
-    /*
-    const user_location = new IconLayer({
-        id: 'icon-layer',
-        data: [this.state.USER_LOC],
-        iconAtlas: User_Icon,
-        iconMapping: USER_MAPPING,
-        getSize: d => 200,
-    });
-    */
     const {viewport} = this.state;
     return (
 	    <div>
@@ -101,13 +55,16 @@ class Home extends Component {
           mapStyle="mapbox://styles/mapbox/dark-v9"
           onViewportChange={this._onViewportChange.bind(this)}
           mapboxApiAccessToken={MAPBOX_TOKEN}>
-          {this._renderUserLoc(this.state.USER_LOC)}
+          {this.props.renderUserLoc(this.props.USER_LOC)}
          <Route path={`${this.props.match.url}/subway`} render={ ()  => 
             	<GeoJsonDeckGLOverlay viewport={viewport}/> }/>
           <Route path={`${this.props.match.url}/taxi-trips-nyc`} render={ ()  => 
             <DeckGLOverlay viewport={viewport} /> }/>
+					{/*
 					<Route path={`${this.props.match.url}/icons`} render={ ()  => 
-            <IconDeckGLOverlay viewport={viewport} /> }/>
+            <IconDeckGLOverlay viewport={viewport} crimeToggle={this.props.crimeChange}/> }/>
+						*/}
+            <IconDeckGLOverlay viewport={viewport} crimeToggle={this.props.crimeChange}/> }/>
        </MapGL>
     </div>
     );

@@ -25,20 +25,6 @@ const EVENTBRITE_MAPPING = {
   marker: {x: 0, y: 0, width: 520, height: 520, mask: false}
 };
 
-
-/* On Hover Inline Style */
-const tooltipStyle = {
-  position: 'absolute',
-  padding: '10px',
-  background: 'rgba(0, 0, 0, 0.8)',
-  color: '#fff',
-  maxWidth: '300px',
-  fontSize: '15px',
-  zIndex: 9,
-  pointerEvents: 'none',
-	wordWrap: 'break-word',
-};
-
 export default class IconDeckGLOverlay extends Component {
   constructor(props) {
     super(props);
@@ -94,6 +80,7 @@ export default class IconDeckGLOverlay extends Component {
           //console.log(res);
           this.setState({dataRobberies: res});
       }
+		this.updateCrimeData = this.updateCrimeData.bind(this);
     }); 
 
     const EVENTBRITE_URL = '/apis/eventbrite?lon=-73.935242&lat=40.73061';
@@ -120,12 +107,31 @@ export default class IconDeckGLOverlay extends Component {
     console.log("Clicked icon:",object);
   }
 
+	updateCrimeData() {
+		console.log("we made it bois");
+	}
+	
+	compentDidMount() {
+		this.updateCrimeData();
+
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if(this.props.crimeToggle !== nextProps.crimeToggle) {
+			this.updateCrimeData();
+		}
+		
+	}
+
   render() {
     const {viewport} = this.props;
-		const {dataMeetup, dataFoursquare, dataRobberies, dataEventBrite} = this.state;
+		const {dataMeetup, dataFoursquare, dataEventBrite} = this.state;
     if (!dataMeetup) {
       return null;
     }
+		console.log(dataRobberies,this.props.crimeToggle);
+		const	dataRobberies = this.props.crimeToggle? this.state.dataRobberies : [];
+
     const meetup = new IconLayer({
       id: 'meetup',
       data: dataMeetup,
@@ -152,6 +158,7 @@ export default class IconDeckGLOverlay extends Component {
  	  	onHover: this._onHover.bind(this),
       onClick: this._onClick.bind(this),
     });
+
     const nycRobberies= new IconLayer({
       id: 'nycRobberies',
       data: dataRobberies,
