@@ -3,7 +3,7 @@ import MaterialTitlePanel from './material_title_panel';
 import PropTypes from 'prop-types';
 import { NavLink} from 'react-router-dom'
 import './main.css';
-import './sidebar.css';
+import './toggle.css';
 import Toggle from 'react-toggle'
 
 
@@ -46,6 +46,7 @@ const SidebarContent = (props) => {
 				<br></br>
     		<NavLink to="/users" activeClassName="active" className="label lb-lg">NodeTest</NavLink>
       	<div style={styles.divider} />
+				{/*
 				<div className="row">
     			<NavLink to="/layer/subway" activeClassName="active" className="label lb-lg">Geo Json Info</NavLink>
 				</div>
@@ -55,6 +56,7 @@ const SidebarContent = (props) => {
 				<div className="row">
     			<NavLink to="/layer/icons" activeClassName="active" className="label lb-lg">Icon Layer</NavLink>
 				</div>
+				*/}
 				<label>
 			  <Toggle
 				    defaultChecked={props.buttonChanged}

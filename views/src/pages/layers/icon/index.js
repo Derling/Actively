@@ -66,7 +66,6 @@ export default class IconDeckGLOverlay extends Component {
               obj.coordinates = [temp[1],temp[0]]
               obj.crime_robberies_id = i++;
           });
-          console.log(res);
           this.setState({dataRobberies: res});
       }
     }); 
@@ -87,10 +86,12 @@ export default class IconDeckGLOverlay extends Component {
 
   render() {
     const {viewport} = this.props;
-		const {dataMeetup, dataFoursquare, dataRobberies} = this.state;
+		const {dataMeetup, dataFoursquare} = this.state;
     if (!dataMeetup) {
       return null;
     }
+		const	dataRobberies = this.props.crimeToggle? this.state.dataRobberies : [];
+		console.log(dataRobberies,this.props.crimeToggle);
     const meetup = new IconLayer({
       id: 'meetup',
       data: dataMeetup,
@@ -117,6 +118,7 @@ export default class IconDeckGLOverlay extends Component {
  	  	onHover: this._onHover.bind(this),
       onClick: this._onClick.bind(this),
     });
+
     const nycRobberies= new IconLayer({
       id: 'nycRobberies',
       data: dataRobberies,
@@ -130,7 +132,6 @@ export default class IconDeckGLOverlay extends Component {
  	  	onHover: this._onHover.bind(this),
       onClick: this._onClick.bind(this),
     });
-
     return (
 			<div>
 		  	{renderHoveredItems(this.state)}
