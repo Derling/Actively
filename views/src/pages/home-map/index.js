@@ -4,6 +4,7 @@ import GeoJsonDeckGLOverlay from '../layers/geo-json/index.js';
 import DeckGLOverlay from '../layers/custom-trips-layer/trips-deckgl-overlay.js';
 import IconDeckGLOverlay from '../layers/icon/index.js';
 import {Route} from 'react-router';
+import Signup from '../users/signup.js';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MapboxAccessToken; // eslint-disable-line
 //const DATA_URL = 'https://data.cityofnewyork.us/api/geospatial/thbt-gfu9?method=export&format=GeoJSON';  // eslint-disable-line
@@ -56,6 +57,7 @@ class Home extends Component {
             <DeckGLOverlay viewport={viewport} /> }/>
 					<Route path={`${this.props.match.url}/icons`} render={ ()  => 
             <IconDeckGLOverlay viewport={viewport} /> }/>
+				<Signup />
        </MapGL>
     </div>
     );

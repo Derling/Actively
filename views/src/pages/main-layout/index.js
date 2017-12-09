@@ -94,7 +94,7 @@ class MainLayout extends Component {
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
           			<Route path="/signup" exact component={Signup} />
-								<Redirect to="/" />
+								<Redirect to="/layer" />
         		</Switch>
       		</main>
           </div>
