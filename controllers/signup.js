@@ -25,10 +25,11 @@ router.post('/',(req,res) => {
     res.json([{msg: "Welcome " + user.username}])
     
   })
+  /*
   .catch(()=> {
     res.json([{msg: "Either email or username is already registered"}])
-  })
-        
+  }
+    */    
 });
 
 module.exports = router;

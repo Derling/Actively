@@ -38,7 +38,7 @@ class Login extends Component {
     })    
     .then( (res) => {return res.json()})                                                                                                                             
     .then( (data) => { alert( JSON.stringify( data ) ) })
-      
+    .catch( (err) => { alert( "Incorrect email or password")})
 
   }
 
