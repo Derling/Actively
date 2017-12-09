@@ -85,6 +85,7 @@ class Home extends Component {
   }
 
   render() {
+		console.log(this.props);
     const {viewport} = this.state;
     return (
 	    <div>

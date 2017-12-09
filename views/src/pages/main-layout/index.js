@@ -39,11 +39,13 @@ class MainLayout extends Component {
       shadow: true,
       pullRight: false,
       touchHandleWidth: 20,
-      dragToggleDistance: 30,
+      dragTogleDistance: 30,
+			buttonCrimeChanged: false,
     };
 		
     this.onSetOpen = this.onSetOpen.bind(this);
     this.menuButtonClick = this.menuButtonClick.bind(this);
+		this.handleCrimeChange = this.handleCrimeChange.bind(this);
   }
 
   onSetOpen(open) {
@@ -54,9 +56,14 @@ class MainLayout extends Component {
     ev.preventDefault();
     this.onSetOpen(!this.state.open);
   }
+
+	handleCrimeChange(){
+		console.log("Changed");
+		this.setState({buttonCrimeChanged :!this.state.buttonCrimeChanged});
+	}
       
   render() {
-    const sidebar = <SidebarContent />;
+    const sidebar = <SidebarContent handleChange={this.handleCrimeChange} buttonChanged={this.state.buttonCrimeChanged} />;
     const contentHeader = (
         <span>
           {!this.state.docked &&
@@ -84,17 +91,25 @@ class MainLayout extends Component {
       transitions: this.state.transitions,
       onSetOpen: this.onSetOpen,
     };
+		console.log(this.state.buttonChanged);
+		const MyMap = (props) => {
+			return (
+				<Home
+					crimeChange = {this.state.buttonCrimeChanged}
+					{...props}
+				/>	
+			);
+		}
     return (
     <Sidebar {...sidebarProps}>
       <MaterialTitlePanel title={contentHeader} login={contentLogin}>
         <div style={styles.content}>
 				  <main>
        	 		<Switch>
-          			<Route path="/layer" component={Home} />
+          			<Route path="/layer" component={MyMap} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
           			<Route path="/signup" exact component={Signup} />
-								<Redirect to="/layer" />
         		</Switch>
       		</main>
           </div>
@@ -102,6 +117,7 @@ class MainLayout extends Component {
       </Sidebar>
     );
   }
+
 }
 
 export default MainLayout;
