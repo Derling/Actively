@@ -77,7 +77,6 @@ export default class IconDeckGLOverlay extends Component {
               obj.coordinates = [temp[1],temp[0]]
               obj.crime_robberies_id = i++;
           });
-          //console.log(res);
           this.setState({dataRobberies: res});
       }
 		this.updateCrimeData = this.updateCrimeData.bind(this);
@@ -85,7 +84,6 @@ export default class IconDeckGLOverlay extends Component {
 
     const EVENTBRITE_URL = '/apis/eventbrite?lon=-73.935242&lat=40.73061';
     requestJson(EVENTBRITE_URL, (error, response) => {
-        console.log(response);
         if(!error) {
           this.setState({dataEventBrite: response});
         }
@@ -117,7 +115,7 @@ export default class IconDeckGLOverlay extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(this.props.crimeToggle !== nextProps.crimeToggle) {
+		if(this.props.robberiesChange !== nextProps.robberiesChange) {
 			this.updateCrimeData();
 		}
 		
@@ -125,12 +123,11 @@ export default class IconDeckGLOverlay extends Component {
 
   render() {
     const {viewport} = this.props;
-		const {dataMeetup, dataFoursquare, dataEventBrite} = this.state;
-    if (!dataMeetup) {
-      return null;
-    }
-		console.log(dataRobberies,this.props.crimeToggle);
-		const	dataRobberies = this.props.crimeToggle? this.state.dataRobberies : [];
+
+		const	dataRobberies = this.props.robberiesChange? this.state.dataRobberies : [];
+		const	dataFoursquare = this.props.foursquareChange? this.state.dataFoursquare: [];
+		const	dataMeetup = this.props.meetupChange? this.state.dataMeetup: [];
+		const	dataEventBrite = this.props.eventbriteChange? this.state.dataEventBrite: [];
 
     const meetup = new IconLayer({
       id: 'meetup',

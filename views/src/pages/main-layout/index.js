@@ -44,7 +44,10 @@ class MainLayout extends Component {
       pullRight: false,
       touchHandleWidth: 20,
       dragTogleDistance: 30,
-			buttonCrimeChanged: false,
+			buttonRobberies: false,
+			buttonFoursquare: false,
+			buttonMeetup: false,
+			buttonEventbrite: false,
 			USER_LOC : {
           position: [-74.006,40.7128],
           icon: 'marker', 
@@ -60,13 +63,30 @@ class MainLayout extends Component {
         width: 500,
         height: 500,
       },
+			MyMap : (props) => {
+			return (
+				<Home
+					robberiesChange = {this.state.buttonRobberies}
+					foursquareChange = {this.state.buttonFoursquare}
+					meetupChange = {this.state.buttonMeetup}
+					eventbriteChange = {this.state.buttonEventbrite}
 
+					renderUserLoc = {this._renderUserLoc}
+					USER_LOC = {this.state.USER_LOC}
+					viewport = {this.state.viewport}
+					{...props}
+				/> 	
+			);
+		}
     };
 		this._getUserCoord();
     this.onSetOpen = this.onSetOpen.bind(this);
     this.menuButtonClick = this.menuButtonClick.bind(this);
-		this.handleCrimeChange = this.handleCrimeChange.bind(this);
 		this._renderUserLoc = this._renderUserLoc.bind(this);
+		this.handleRobberiesChange = this.handleRobberiesChange.bind(this);
+		this.handleFourSquareChange = this.handleFourSquareChange.bind(this);
+		this.handleMeetupChange = this.handleMeetupChange.bind(this);
+		this.handleEventbriteChange = this.handleEventbriteChange.bind(this);
   }
 
 	_getUserCoord() {
@@ -78,6 +98,22 @@ class MainLayout extends Component {
 				prevState.USER_LOC.position[1] = position.coords.latitude;
 				prevState.viewport.longitude = position.coords.longitude;
 				prevState.viewport.latitude = position.coords.latitude;
+				prevState.MyMap = (props) => {
+				return (
+						<Home
+							robberiesChange = {this.state.buttonRobberies}
+							foursquareChange = {this.state.buttonFoursquare}
+							meetupChange = {this.state.buttonMeetup}
+							eventbriteChange = {this.state.buttonEventbrite}
+
+
+								renderUserLoc = {this._renderUserLoc}
+								USER_LOC = {this.state.USER_LOC}
+								viewport = {this.state.viewport}
+								{...props}
+						/> 	
+					);
+					}
 				return prevState;
 			});
 			this.forceUpdate( () => {console.log("Coord updated")});
@@ -90,11 +126,10 @@ class MainLayout extends Component {
       <Marker 
         longitude={users_loc.position[0]}
         latitude={users_loc.position[1]} >
-        <Pin size={users_loc.size} onClick={() => {console.log("clicked user loc")}} />
+        	<Pin size={users_loc.size} onClick={() => {console.log("clicked user loc")}} />
       </Marker>
     );
 	}
-
 
   onSetOpen(open) {
     this.setState({open: open});
@@ -105,13 +140,31 @@ class MainLayout extends Component {
     this.onSetOpen(!this.state.open);
   }
 
-	handleCrimeChange(){
-		console.log("Changed");
-		this.setState({buttonCrimeChanged :!this.state.buttonCrimeChanged});
+	handleRobberiesChange(){
+		this.setState({buttonRobberies :!this.state.buttonRobberies});
 	}
-      
+	handleFourSquareChange(){
+		this.setState({buttonFoursquare :!this.state.buttonFoursquare});
+	}
+	handleMeetupChange(){
+		this.setState({buttonMeetup :!this.state.buttonMeetup});
+	} 
+	handleEventbriteChange(){
+		this.setState({buttonEventbrite :!this.state.buttonEventbrite});
+	} 
   render() {
-    const sidebar = <SidebarContent handleChange={this.handleCrimeChange} buttonChanged={this.state.buttonCrimeChanged} />;
+    const sidebar = 
+		<SidebarContent 
+			handleRobberiesChange={this.handleRobberiesChange} 
+			handleFourSquareChange={this.handleFourSquareChange} 
+			handleMeetupChange={this.handleMeetupChange} 
+			handleEventbriteChange={this.handleEventbriteChange} 
+
+			buttonEventbrite={this.state.buttonRobberies} 
+			buttonFoursquare={this.state.buttonRobberies} 
+			buttonRobberies={this.state.buttonRobberies} 
+			buttonMeetup={this.state.buttonMeetup} 
+		/>;
     const contentHeader = (
         <span>
           {!this.state.docked &&
@@ -139,24 +192,13 @@ class MainLayout extends Component {
       transitions: this.state.transitions,
       onSetOpen: this.onSetOpen,
     };
-		const MyMap = (props) => {
-			return (
-				<Home
-					crimeChange = {this.state.buttonCrimeChanged}
-					renderUserLoc = {this._renderUserLoc}
-					USER_LOC = {this.state.USER_LOC}
-					viewport = {this.state.viewport}
-					{...props}
-				/>	
-			);
-		}
     return (
     <Sidebar {...sidebarProps}>
       <MaterialTitlePanel title={contentHeader} login={contentLogin}>
         <div style={styles.content}>
 				  <main>
        	 		<Switch>
-          			<Route path="/layer" component={MyMap} />
+          			<Route path="/layer" component={this.state.MyMap} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />
           			<Route path="/signup" exact component={Signup} />

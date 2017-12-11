@@ -59,9 +59,28 @@ const SidebarContent = (props) => {
 				*/}
 				<label>
 			  <Toggle
-				    defaultChecked={props.buttonChanged}
-						    onChange={props.handleChange} />
+				    defaultChecked={props.buttonRobberies}
+						onChange={props.handleRobberiesChange} />
 					<span>Crime Data</span>
+				</label>
+				<label>
+			  <Toggle
+				    defaultChecked={props.buttonFoursquare}
+						onChange={props.handleFourSquareChange} />
+					<span>Foursquare </span>
+				</label>
+				<label>
+				<Toggle
+				    defaultChecked={props.buttonMeetup}
+						onChange={props.handleMeetupChange} />
+					<span>Meetup</span>
+				</label>
+				<div></div>
+				<label>
+			  <Toggle
+				    defaultChecked={props.buttonEventbrite}
+						onChange={props.handleEventbriteChange} />
+					<span>  EventBrite </span>
 				</label>
 			</div>
     </MaterialTitlePanel>

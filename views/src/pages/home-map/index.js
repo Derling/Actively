@@ -62,9 +62,14 @@ class Home extends Component {
             <DeckGLOverlay viewport={viewport} /> }/>
 					{/*
 					<Route path={`${this.props.match.url}/icons`} render={ ()  => 
-            <IconDeckGLOverlay viewport={viewport} crimeToggle={this.props.crimeChange}/> }/>
+            <IconDeckGLOverlay viewport={viewport} robberiesChange={this.props.robberiesChange}/> }/>
 						*/}
-            <IconDeckGLOverlay viewport={viewport} crimeToggle={this.props.crimeChange}/> }/>
+            <IconDeckGLOverlay 
+							viewport={viewport} 
+							foursquareChange ={this.props.foursquareChange} 
+							robberiesChange ={this.props.robberiesChange} 
+							meetupChange ={this.props.meetupChange} 
+							eventbriteChange ={this.props.eventbriteChange}/> 
        </MapGL>
     </div>
     );
