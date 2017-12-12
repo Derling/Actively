@@ -25,7 +25,7 @@ class Login extends Component {
 
     alert('A name was submitted: ' + this.state.email+ this.state.password);                                           
     event.preventDefault();
-    fetch('/apis/login',{                                                                                                                         
+    fetch('/login',{                                                                                                                         
           method: "POST",                                                                                                                      
           body: JSON.stringify({
             'email'   : this.state.email,

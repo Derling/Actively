@@ -33,7 +33,7 @@ class Signup extends Component {
   handleSubmit(event) {                                                                                                                        
     alert('A name was submitted: ' + this.state.email ); 
     event.preventDefault();                                                                                       
-     fetch("/apis/signup",{                                                                                                                         
+     fetch("/signup",{                                                                                                                         
           method: "POST",                                                                                                                      
           body: JSON.stringify({
             'firstName':this.state.firstName,
