@@ -9,6 +9,7 @@ module.exports = (req, res) => {
         key: '5b496e111b404d173f3c1c3414e31b',
         lat: lat,
         lon:lon,
+        radius: 10,
     },
     json: true, // No need to parse 
   }
@@ -25,7 +26,7 @@ module.exports = (req, res) => {
 					description: events[event]["description"],
 					coordinates: [ events[event]["group"]["group_lon"],events[event]["group"]["group_lat"] ],
 				});
-			};
+			}
 			res.json(resp);
 	 })
   .catch( (error) => {console.log("Error in Meetup request",error)});

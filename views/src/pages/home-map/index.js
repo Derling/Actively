@@ -4,7 +4,18 @@ import GeoJsonDeckGLOverlay from '../layers/geo-json/index.js';
 import DeckGLOverlay from '../layers/custom-trips-layer/trips-deckgl-overlay.js';
 import IconDeckGLOverlay from '../layers/icon/index.js';
 import {Route} from 'react-router';
+import User_Icon from './user_on_map_2_small.png';
+import {Marker} from 'react-map-gl';
+
 import Signup from '../users/signup.js';
+
+/*
+import DeckGL, {IconLayer} from 'deck.gl';
+
+const USER_MAPPING = {
+  marker: {x: 0, y: 0, width: 120, height: 120, mask: false}
+};
+*/
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MapboxAccessToken; // eslint-disable-line
 //const DATA_URL = 'https://data.cityofnewyork.us/api/geospatial/thbt-gfu9?method=export&format=GeoJSON';  // eslint-disable-line
@@ -13,25 +24,16 @@ const MAPBOX_TOKEN = process.env.REACT_APP_MapboxAccessToken; // eslint-disable-
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      viewport: {
-        longitude: -74.0060,
-        latitude: 40.7128,
-        zoom: 12.6,
-        minZoom: 5,
-        maxZoom: 15,
-        pitch: 50.5,
-        width: 500,
-        height: 500,
-      },
-    };	
-  }
+			this.state={
+				viewport: this.props.viewport
+			}
+	}
 
 	componentDidMount() {
     window.addEventListener('resize', this._resize.bind(this));
     this._resize();
-  }
-	_resize() {
+	}
+		_resize() {
   	this._onViewportChange({
       width: window.innerWidth,
       height: window.innerHeight
@@ -42,6 +44,8 @@ class Home extends Component {
       viewport: {...this.state.viewport, ...viewport}
     });
   }
+
+//<Signup />
   render() {
     const {viewport} = this.state;
     return (
@@ -51,13 +55,21 @@ class Home extends Component {
           mapStyle="mapbox://styles/mapbox/dark-v9"
           onViewportChange={this._onViewportChange.bind(this)}
           mapboxApiAccessToken={MAPBOX_TOKEN}>
-          <Route path={`${this.props.match.url}/subway`} render={ ()  => 
+          {this.props.renderUserLoc(this.props.USER_LOC)}
+         <Route path={`${this.props.match.url}/subway`} render={ ()  => 
             	<GeoJsonDeckGLOverlay viewport={viewport}/> }/>
           <Route path={`${this.props.match.url}/taxi-trips-nyc`} render={ ()  => 
             <DeckGLOverlay viewport={viewport} /> }/>
+					{/*
 					<Route path={`${this.props.match.url}/icons`} render={ ()  => 
-            <IconDeckGLOverlay viewport={viewport} /> }/>
-				<Signup />
+            <IconDeckGLOverlay viewport={viewport} robberiesChange={this.props.robberiesChange}/> }/>
+						*/}
+            <IconDeckGLOverlay 
+							viewport={viewport} 
+							foursquareChange ={this.props.foursquareChange} 
+							robberiesChange ={this.props.robberiesChange} 
+							meetupChange ={this.props.meetupChange} 
+							eventbriteChange ={this.props.eventbriteChange}/> 
        </MapGL>
     </div>
     );
