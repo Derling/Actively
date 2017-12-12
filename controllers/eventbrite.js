@@ -19,10 +19,9 @@ module.exports = (req, res) => {
         // some events do not contain their lat and lon, we can't use those
         if(events[event]["venue"]) {
           resp.push({
-            eventbrite_id: events[event]["id"],
+            event_id: events[event]["id"],
             url: events[event]["url"],
             event_name: events[event]["name"]["text"],
-            logo_image_url: events[event]["logo"]["url"],
             description: events[event]["description"]["text"],
             coordinates: [events[event]["venue"]["longitude"], 
             events[event]["venue"]["latitude"]] // array containg lat and lon 
