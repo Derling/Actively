@@ -177,7 +177,7 @@ class MainLayout extends Component {
 	  const contentLogin = (
         <NavLink to="/login" 
           activeClassName="active" 
-          className="label lb-md">Login/Logout
+          className="label lb-md">Login/SignUp
         </NavLink>
 		);
     const contentSignup = (
