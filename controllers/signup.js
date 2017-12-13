@@ -17,12 +17,15 @@ router.post('/',(req,res) => {
       email: req.body.email,
       password: req.body.password
   }
-	console.log("Recieved",userdata);
+	//console.log("Recieved",userdata);
 	models.user.create(userdata)
   .then((user)=> {
-		console.log("Created",user);
+		//console.log("Created",user);
     res.json([{msg: "Welcome " + user.username}])
   })
+  .catch(() => {
+      res.json([{msg: " Fail in signup"}])
+    });
     
 });
 

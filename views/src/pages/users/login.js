@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Background from '../layers/icon/data/login.png';
 class Login extends Component {
 
   constructor(props) {
@@ -42,19 +42,54 @@ class Login extends Component {
 
   }
 
-  render() {                                                                                                                                   
-    return (                                                                                                                                   
-      <form onSubmit={this.handleSubmit}>  
-        <label>                                                                                                                                                 
-          password:                                                                                                                                
-          <input type="password" value={this.state.password} onChange={this.handlePassword} />                                                          
-        </label> 
-        <label>                                                                                                                                
-          Email:                                                                                                                                
-          <input type="text" value={this.state.email} onChange={this.handleEmail} />                                                          
-        </label> 
-        <input type="submit" value="Submit" />                                                                                                 
-      </form>                                                                                                                                  
+  render() { 
+  const sectionStyle = {
+    width: "100%",
+    height: "800px",
+    backgroundImage: "url(" + Background + ")"
+  }                                                                                                                                  
+    return (
+<div>
+
+  <div className="container" style={sectionStyle}>
+    <div style={{paddingTop: '6cm'}}>   
+      <div className="row centered-form text-center">
+        <div className="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+          <div className="panel panel-default"> 
+            <div className="panel-heading">
+              <h3 className="panel-title">Actively Login</h3>
+            </div>
+            <div className="panel-body">                                                                                                                               
+              <form onSubmit={this.handleSubmit}>
+                <div className="row">
+                  <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3 ">
+                    <div className="form-group ">  
+                      <label>                                                                                                                                
+                        Email:                                                                                                                                
+                        <input type="text" value={this.state.email} onChange={this.handleEmail} />                                                          
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
+                    <div className="form-group"> 
+                      <label>                                                                                                                                                 
+                        Password:                                                                                                                                
+                        <input type="password" value={this.state.password} onChange={this.handlePassword} />                                                          
+                      </label>
+                    </div>
+                  </div>
+                </div> 
+                <input type="submit" value="Submit" />                                                                                                 
+              </form> 
+            </div>                                                                                                                                 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>   
     )                                                                                                                                         
   }
 }
