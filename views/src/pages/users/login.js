@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Background from '../layers/icon/data/login.png';
+import { NavLink} from 'react-router-dom'
 class Login extends Component {
 
   constructor(props) {
@@ -47,10 +48,12 @@ class Login extends Component {
     width: "100%",
     height: "800px",
     backgroundImage: "url(" + Background + ")"
-  }                                                                                                                                  
+  }  
+  const signup = (
+        <NavLink to="/signup" > Create Here! </NavLink>
+  )                                                                                                                               
     return (
 <div>
-
   <div className="container" style={sectionStyle}>
     <div style={{paddingTop: '6cm'}}>   
       <div className="row centered-form text-center">
@@ -81,8 +84,9 @@ class Login extends Component {
                     </div>
                   </div>
                 </div> 
-                <input type="submit" value="Submit" />                                                                                                 
-              </form> 
+                <input type="submit" value="Submit" className="btn btn-info btn-block" />                                                                                                 
+              </form>
+              <h3 className="panel-title">No Account? {signup}</h3> 
             </div>                                                                                                                                 
           </div>
         </div>

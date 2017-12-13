@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink} from 'react-router-dom'
-
+import Background from '../layers/icon/data/signup.jpg';
 class Signup extends Component {
 
  constructor(props) {                                                                                                                          
@@ -56,59 +56,70 @@ class Signup extends Component {
     const login = (
         <NavLink to="/login" > Here </NavLink>
 		);
+    const sectionStyle = {
+    width: "100%",
+    height: "800px",
+    backgroundImage: "url(" + Background + ")",
+    
+  }
 
     return (                     
-		<div className="container" style={{paddingTop: '3cm'}}>
-      <div className="row centered-form text-center">
-        <div className="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
-          <div className="panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title">Sign up to view<small> its free</small></h3>
-          </div>
-          <div className="panel-body">
-          <form onSubmit={this.handleSubmit}>                                                                                                
+		<div className="img-fluid" style={sectionStyle}>
+      <div className="container" style={{paddingTop: '3cm'}}>
+        <div className="row centered-form text-center">
+          <div className="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+            <div className="panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">Sign up to view<small> its free</small></h3>
+            </div>
+            <div className="panel-body">
+            <form onSubmit={this.handleSubmit}>                                                                                                
+              <div className="row">
+                <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3 ">
+                  <div className="form-group ">
+                  <label>Username: <input type="text"  className="form-control"value={this.state.username} onChange={this.handleUsername} /></label>   
+                  </div>
+                </div>
+              </div>
             <div className="row">
-              <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3 ">
-                <div className="form-group ">
-                <label>Username: <input type="text"  className="form-control"value={this.state.username} onChange={this.handleUsername} /></label>   
+              <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
+                <div className="form-group">
+                  <label> Password:<input type="text" className="form-control" value={this.state.password} onChange={this.handlePassword} /> </label> 
                 </div>
               </div>
             </div>
-          <div className="row">
-            <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
-              <div className="form-group">
-                <label> Password:<input type="text" className="form-control" value={this.state.password} onChange={this.handlePassword} /> </label> 
+            <div className="row">
+              <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
+                <div className="form-group">
+                <label>  Email:<input type="text" className="form-control" value={this.state.email} onChange={this.handleEmail} /> </label> 
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
-              <div className="form-group">
-              <label>  Email:<input type="text" className="form-control" value={this.state.email} onChange={this.handleEmail} /> </label> 
+            <div className="row">
+              <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
+                <div className="form-group">
+                  <label> Firstname: <input type="text" className="form-control" value={this.state.firstName} onChange={this.handleFirstName} /> 
+                  </label> 
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
-              <div className="form-group">
-                <label> Firstname: <input type="text" className="form-control" value={this.state.firstName} onChange={this.handleFirstName} /> 
-                </label> 
+            <div className="row">
+              <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
+                <div className="form-group">
+                  <label> LastName:<input type="text" className="form-control" value={this.state.lastName} onChange={this.handleLastName} />
+                  </label> 
+                </div>
               </div>
             </div>
+            
+              <input type="submit"className="form-control" value="Submit" bsSize="small" className="btn btn-info btn-block"/> 
+
+            </form>        
+            <h3 className="panel-title">Have an account Sign in {login}</h3>
           </div>
-          <div className="row">
-            <div className="col-xs-6 col-sm-6 col-mid-6 col-md-offset-3">
-              <div className="form-group">
-                <label> LastName:<input type="text" className="form-control" value={this.state.lastName} onChange={this.handleLastName} />
-                </label> 
-              </div>
-            </div>
-          </div>
-          <input type="submit"className="form-control" value="Submit" className="btn btn-info btn-block"/> 
-          </form>                                                                                                                                        <h3 className="panel-title">Have an account Sign in {login}</h3>
         </div>
+       </div>
       </div>
-     </div>
     </div>
    </div>
     )                                                                                                                                         

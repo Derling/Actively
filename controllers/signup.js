@@ -24,8 +24,8 @@ router.post('/',(req,res) => {
     res.json([{msg: "Welcome " + user.username}])
   })
   .catch(() => {
-      res.json([{msg: " Fail in signup"}])
-    });
+      res.json({msg: "Registered"})
+    })
     
 });
 
