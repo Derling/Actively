@@ -180,6 +180,12 @@ class MainLayout extends Component {
           className="label lb-md">Login/Logout
         </NavLink>
 		);
+    const contentSignup = (
+        <NavLink to="/signup" 
+          activeClassName="active" 
+          className="label lb-md">Signup
+        </NavLink>
+    );
     const sidebarProps = {
       sidebar: sidebar,
       docked: this.state.docked,
@@ -194,7 +200,7 @@ class MainLayout extends Component {
     };
     return (
     <Sidebar {...sidebarProps}>
-      <MaterialTitlePanel title={contentHeader} login={contentLogin}>
+      <MaterialTitlePanel title={contentHeader} login={contentLogin}>  
         <div style={styles.content}>
 				  <main>
        	 		<Switch>

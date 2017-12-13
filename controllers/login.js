@@ -3,7 +3,7 @@ const passport = require('../middlewares/authentication');
 const Redirect = require('../middlewares/redirect');
 const models = require('../models');
 const router = express.Router();
-
+const flash = require('connect-flash');
 
 router.get('/',(req,res) => {
   			res.json({
