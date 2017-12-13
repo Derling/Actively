@@ -21,6 +21,9 @@ import Login from '../users/login.js';
 import {Marker} from 'react-map-gl';
 import Pin from './pin.js';
 
+/* Front Page */
+import FrontPage from '../front-page/index.js';
+
 const styles = {
   contentHeaderMenuLink: {
     textDecoration: 'none',
@@ -204,6 +207,7 @@ class MainLayout extends Component {
         <div style={styles.content}>
 				  <main>
        	 		<Switch>
+          			<Route path="/" exact component={FrontPage} />
           			<Route path="/layer" component={this.state.MyMap} />
           			<Route path="/users" exact component={NodeTest} />
           			<Route path="/login" exact component={Login} />

@@ -1,0 +1,51 @@
+.content {
+	width: 100%;
+	height: 100vh;
+  background-size: cover;
+  background-image: url('./giphy.gif');
+}
+
+.content__inner {
+	width: 100%;
+	height: 100vh;
+	position: relative;
+	text-align: center;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.content__title {
+	font: 200 6vw/1 'Spectral', serif; 
+	color: #FF69B4;	
+    margin: 0;
+	line-height: 1;
+}
+
+.content__title--filled {
+	padding: 0.25em 0.5em;
+}
+
+.content__title span {
+	display: inline-block;
+}
+
+.content__subtitle {
+	font: #002068; 
+	font-size: 3.5em;
+	color: #222; 
+	padding: 0.5em 0 0 0;
+	margin: 0;
+}
+.enter, .explore {
+	margin: 6vh 0 0 0;
+	font-size: 1em;
+	letter-spacing: 3px;
+	cursor: pointer;
+	font-weight: bold;
+	white-space: pre;
+	color: #fff;
+	pointer-events: auto;
+}
